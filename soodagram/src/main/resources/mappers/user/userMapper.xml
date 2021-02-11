@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace = "com.soodagram.soodagram.mappers.user.UserMapper">
+
+	<resultMap type="UserVO" id="UserResultMap">
+		<id property="userEmail" column="user_email"/>
+		<result property="userPw" column="user_pw"/>
+		<result property="userName" column="user_name"/>
+		<result property="userId" column="user_id"/>
+		<result property="userPhone" column="user_phone"/>
+		<result property="userGender" column="user_gender"/>
+		<result property="userImg" column="user_img"/>
+		<result property="userRegDate" column="user_reg_date"/>
+		<result property="userDesc" column="user_desc"/>		
+	</resultMap>
+
+	<!-- ####### 회원가입 로직 ####### -->
+	<!-- 회원등록 -->
+	<insert id = "register">
+		INSERT INTO tbl_user (
+			user_email,
+			user_pw,
+			user_name,
+			user_id
+		) VALUES (
+			#{userEmail},
+			#{userPw},
+			#{userName},
+			#{userId}
+		)		
+	</insert>
+	
+	<!-- email 중복 가입 방지 -->
+	<select id="duplicateEmail" resultType="int">
+		SELECT COUNT(user_email)
+		FROM tbl_user
+		WHERE
+			user_email = #{userEmail}
+	</select>
+	
+	<!-- ID 중복 체크 -->
+	<select id="duplicateId" resultType="int">
+		SELECT COUNT(user_id)
+		FROM tbl_user
+		WHERE
+			user_id = #{userId}
+	</select>
+	
+</mapper>

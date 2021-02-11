@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+.feed{
+  margin-right: 50px;
+}
+
+#icon {
+  margin-right:10px;
+}
+
+.profile{
+  margin-right: 3%;
+}
+.list{
+  font-size: small;
+}
+
+.feedNum{
+  margin-right: 20px;
+}
+
+.followBtn{
+  margin-right: 20px;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none;
+}
+
+.btn-link.text-dark.profile {
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent;
+}
+
+.contentInput{
+  width: 100%;
+  height: 150px;
+}
+
+.fileDrop.text-center {
+  height: 150px;
+}
+
+
+.addPeople{
+  font-size: 100px;
+}
+
+
+.fileDiv{
+	border-style: dashed solid;
+	height: 210px !important;
+	width: 100% !important;
+	overflow-x: auto;
+	display: flex;
+}
+
+.fileDiv::-webkit-scrollbar{
+	width: 0;
+}
+
+.imgList{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.delBtn {
+	margin-top: 5px;
+	width: 80px;
+	height: 30px;
+}

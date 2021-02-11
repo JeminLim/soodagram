@@ -1,0 +1,33 @@
+@charset "UTF-8";
+ .menu-list{
+      list-style:none;
+      margin: 20px 0;
+}
+#profile-img{
+  margin-left:100px;
+}
+
+h3{
+  margin-left: 20px;
+}
+
+#change_profile_img{
+  background-color: transparent !important;
+  border: none;
+  color: blue;
+  font-size: 12px;
+  padding: 0;
+}
+
+.aside-input.col-md-3{
+  padding-right: 4%;
+  text-align: right;
+}
+
+.menu-list.deactivated{
+  color: #d3d3d3;
+}
+
+.profile-input{
+  width: 60%;
+}
