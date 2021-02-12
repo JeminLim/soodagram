@@ -43,10 +43,19 @@
 	
 	<!-- ID 중복 체크 -->
 	<select id="duplicateId" resultType="int">
-		SELECT COUNT(user_id)
+		SELECT COUNT(user_email)
 		FROM tbl_user
 		WHERE
 			user_id = #{userId}
+	</select>
+	
+	
+	<!-- #### 로그인 #### -->
+	<select id="login" resultMap="UserResultMap">
+		SELECT *
+		FROM tbl_user
+		WHERE
+			user_email = #{userEmail}
 	</select>
 	
 </mapper>

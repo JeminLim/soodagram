@@ -27,7 +27,28 @@
 	
 	<aop:aspectj-autoproxy/>
 	
+	<!-- login interceptor bean 객체 생성 -->
+	<beans:bean id="loginInterceptor" class="com.soodagram.soodagram.commons.interceptor.LoginInterceptor" />
 	
+	<!-- login interceptor 맵핑 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/login"/>
+			<beans:ref bean="loginInterceptor" />
+		</interceptor>
+	</interceptors>
+	
+	<!-- Auth interceptor bean 객체 생성 -->
+	<beans:bean id="authInterceptor" class="com.soodagram.soodagram.commons.interceptor.AuthInterceptor"/>
+	
+	<!-- auth interceptor 맵핑 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/"/>
+			<mapping path="/main/feed"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+	</interceptors>
 	
 	
 </beans:beans>

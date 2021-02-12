@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.soodagram.soodagram.user.domain.LoginDTO;
 import com.soodagram.soodagram.user.domain.UserVO;
 
 @Repository
@@ -32,6 +33,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public int duplicateId(String userId) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".duplicateId", userId);
+	}
+
+	@Override
+	public UserVO login(LoginDTO loginDTO) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".login", loginDTO);
 	}
 
 }

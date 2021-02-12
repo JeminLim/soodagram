@@ -1,5 +1,6 @@
 package com.soodagram.soodagram.user.repository;
 
+import com.soodagram.soodagram.user.domain.LoginDTO;
 import com.soodagram.soodagram.user.domain.UserVO;
 
 public interface UserDAO {
@@ -14,5 +15,8 @@ public interface UserDAO {
 	
 	// 정보열람
 	
+	
+	// 로그인
+	UserVO login(LoginDTO loginDTO) throws Exception;
 	
 }

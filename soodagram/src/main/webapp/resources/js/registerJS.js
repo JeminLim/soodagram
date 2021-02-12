@@ -9,38 +9,85 @@ var checkName = false;
 var checkPw = false;
 
 // Email 입력 체크 - ajax 통신으로 중복 여부 확인
-$("#inputEmail").change(function() {
+$(document).ready(function(){
+	$("#userEmail").on("change", function() {
 	
-	var userInput = $(this).val();
-	var url = "/user/duplicateEmail";
-	duplicateEmail(userInput, url);
+		if($(this).val().length == 0){
+			checkEmail = false;
+			return;
+		}
+		
+		
+		var url = "/user/duplicateEmail";
+		
+		$.ajax({
+			url: url,
+			dataType: 'text',
+			data: $("#userEmail").serialize(),
+			type: "POST",
+			async: false,
+			success : function(result) {
+				if(result > 0) {
+					alert("중복된 Email 입니다");
+					checkEmail = false;
+					btnActivate();			
+				} else if(result == 0){	
+					checkEmail = true;		
+					btnActivate();
+				}			
+			  }
+		});
+	});
 });
 
 // id 입력 체크 - ajax 통신으로 중복 여부 확인
-$("#inputId").change(function() {
-	
-	var userInput = $(this).val();
-	var url = "/user/duplicateId";
-	duplicateId(userInput, url);
-	btnActivate();
-	
+$(document).ready(function(){
+	$("#userId").on("change", function() {
+		
+		if($(this).val().length == 0){
+			checkId = false;
+			return;
+		}	
+		
+		var url = "/user/duplicateId";
+		
+		$.ajax({
+			url: url,
+			dataType: 'text',
+			data: $("#userId").serialize(),
+			type: "POST",
+			async: false,
+			success : function(result) {
+				if(result > 0) {
+					alert("중복된 Id 입니다");
+					checkId = false;
+					btnActivate();			
+				} else if(result == 0){	
+					checkId = true;		
+					btnActivate();
+				}			
+			  }
+		});
+		
+	});
+
 });
 
 // Name 입력 체크
-$("#inputName").change(function(){
+$("#userName").change(function(){
 	inputCheckName();
 	btnActivate();
 });
 
 // Password 입력 체크
-$("#inputPw").change(function(){
+$("#userPw").change(function(){
 	inputCheckPw();
 	btnActivate();
 });
 
 function inputCheckName() {
 	
-	var input = $("#inputName").val();
+	var input = $("#userName").val();
 	
 	if(input.length > 0)
 		checkName = true;
@@ -52,7 +99,7 @@ function inputCheckName() {
 
 function inputCheckPw() {
 	
-	var input = $("#inputPw").val();
+	var input = $("#userPw").val();
 	
 	if(input.length > 0)
 		checkPw = true;
@@ -62,40 +109,6 @@ function inputCheckPw() {
 	btnActivate();
 }
 
-
-function duplicateEmail(input, url) {
-	$.ajax({
-		url: url,
-		data: input,
-		type: "POST",
-		success : function(data) {
-			if(data > 0) {
-				checkEmail = false;
-				btnActivate();			
-			} else if(data == 0){
-				checkEmail = true;		
-				btnActivate();
-			}			
-		}
-	});
-}
-
-function duplicateId(input, url) {
-	$.ajax({
-		url: url,
-		data: input,
-		type: "POST",
-		success : function(data) {
-			if(data > 0) {
-				checkId = false;
-				btnActivate();			
-			} else if(data == 0){
-				checkId = true;
-				btnActivate();
-			}			
-		}
-	});
-}
 
 function btnActivate() {	
 	if(checkEmail && checkId && checkPw && checkName)

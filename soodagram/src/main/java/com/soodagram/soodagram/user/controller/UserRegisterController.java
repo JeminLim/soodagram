@@ -30,7 +30,7 @@ public class UserRegisterController {
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String registerGET(UserVO userVO, Model model, RedirectAttributes redirectAttributes) throws Exception {
+	public String registerPOST(UserVO userVO, Model model, RedirectAttributes redirectAttributes) throws Exception {
 				
 		String hashedPw = BCrypt.hashpw(userVO.getUserPw(), BCrypt.gensalt());
 		userVO.setUserPw(hashedPw);
@@ -61,10 +61,13 @@ public class UserRegisterController {
 	@RequestMapping(value="/duplicateId", method=RequestMethod.POST)
 	@ResponseBody 
 	public int duplicateId(String userId){
+
+		System.out.println(userId);
 		
-try {
+		try {
 			
-			int result = userService.duplicateEmail(userId);
+			int result = userService.duplicateId(userId);
+			System.out.println(result);
 			return result;
 			
 		} catch (Exception e) {			

@@ -29,16 +29,16 @@
 							<p class="or"> 또는 </p>
 							<form action="${path}/user/register" method="post">
 								<div class="form-group">
-									<input type="email" id="inputEmail" class="form-control" placeholder="이메일" name="userEmail">
+									<input type="email" id="userEmail" class="form-control" placeholder="이메일" name="userEmail">
 								</div>
 								<div class="form-group">
-									<input type="text" id="inputName" class="form-control" placeholder="성명" name="userName">
+									<input type="text" id="userName" class="form-control" placeholder="성명" name="userName">
 								</div>
 								<div class="form-group">
-									<input type="text" id="inputId" class="form-control" placeholder="사용자 이름" name="userId">
+									<input type="text" id="userId" class="form-control" placeholder="사용자 이름" name="userId">
 								</div>
 								<div class="form-group">
-									<input type="password" id="inputPw" class="form-control" placeholder="비밀번호" name="userPw">
+									<input type="password" id="userPw" class="form-control" placeholder="비밀번호" name="userPw">
 								</div>
 								<button type="submit" id="submitBtn" class="btn btn-primary btn-block" disabled>
 									가입
@@ -57,7 +57,7 @@
 			<div class="col-sm-12">
 				<div class="text-center">					
 					<span class="go-to-register">계정이 있으신가요?
-					<a href="#" class="register">로그인</a>
+					<a href="${path}/user/login" class="register">로그인</a>
 					</span>
 				</div>
 			</div>
