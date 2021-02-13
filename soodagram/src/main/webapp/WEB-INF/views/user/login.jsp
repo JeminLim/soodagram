@@ -21,7 +21,7 @@
 				<div class="text-center">
 					<img src="${path}/resources/static/soodagram-font-logo.png" class="instagram-logo">
 					<div class="login-form">
-						<form action="${path}/user/loginPOST" method="post">
+						<form action="${path}/user/loginPost" method="post">
 							<div class="form-group">
 								<input type="text" name="userEmail" class="form-control" placeholder="이메일">
 							</div>

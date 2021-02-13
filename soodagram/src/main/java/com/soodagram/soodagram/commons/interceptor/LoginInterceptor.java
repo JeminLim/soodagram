@@ -34,13 +34,16 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 		HttpSession httpSession = request.getSession();
 		ModelMap modelMap = modelAndView.getModelMap();
-		Object userVO = modelMap.get("user");
+		Object userVO = modelMap.get("user");		
 		
 		if (userVO != null) {
 			logger.info("new login success");
 			//session에 "login" 이름에 userVO를 저장
 			httpSession.setAttribute(LOGIN, userVO);
+			// 유저가 로그인 성공 시 main/feed로 이동
 			response.sendRedirect("/");
+		} else {
+			System.out.println("userVO is null");
 		}
 		
 		

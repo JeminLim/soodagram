@@ -33,19 +33,17 @@ public class UserLoginController {
 	}
 	
 	// 로그인 처리
-	@RequestMapping(value = "/loginPOST", method = RequestMethod.POST)
-	public String loginPOST(LoginDTO loginDTO, HttpSession httpSession, Model model, RedirectAttributes redirectAttributes) throws Exception {
+	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
+	public void loginPOST(LoginDTO loginDTO, HttpSession httpSession, Model model, RedirectAttributes redirectAttributes) throws Exception {
 		
 		UserVO userVO = userService.login(loginDTO);
 		
 		if(userVO == null || !BCrypt.checkpw(loginDTO.getUserPw(), userVO.getUserPw())) {
-			redirectAttributes.addFlashAttribute("msg", "No user found or incorrect email or password");
-			return "redirect:/user/loginPost";
+			return;
 		}
 		
 		model.addAttribute("user", userVO);
-		redirectAttributes.addFlashAttribute("msg", "login success");
-		return "redirect:/main/feed";
+		
 	}
 	
 	
