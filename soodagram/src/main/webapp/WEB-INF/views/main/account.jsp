@@ -58,7 +58,7 @@
         <div class="row">
           <div class="col-md-2"></div>
           <div class="col-md-4">
-            <img src="../../../resources/static/picture_sample.jpg" alt="sample" height="400" width="350"/>
+            <img src="${path}/resources/static/picture_sample.jpg" alt="sample" height="400" width="350"/>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
                 <!-- 첨부파일 영역 -->
                 <div class="form-group border fileDiv">                             
                 </div> 
-                <input type="file" class="btn btn-primary" id="imgUpload" name="feedImg" />
+                <input type="file" class="btn btn-primary" id="imgUpload" name="feedImg" multiple/>
                 <div class="form-group my-5">
                   <div class="feedContent">
                     <input type="text" class="contentInput" placeholder="내용을 입력해주세요" name="content"/>
@@ -88,7 +88,7 @@
                 <input type="hidden" name="userNo" id="userNo" value="{login.userNo}">          
 	            <div class="modal-footer">
 	              <button type="button" class="btn btn-secondary closeBtn" data-dismiss="modal" id="closeBtn">Close</button>
-	              <button type="submit" class="btn btn-primary">upload Feed</button>
+	              <button type="submit" class="btn btn-primary submitBtn">upload Feed</button>
 	            </div>                    
          	  </form>
             </div>  
@@ -210,7 +210,7 @@
 	</script>	
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-    <script type="text/javascript" src="../../../resources/js/accountScript.js"> </script>    
+    <script type="text/javascript" src="${path}/resources/js/accountJS.js"> </script>    
       
     <script> 
 	    // 버튼 클릭시 삭제
@@ -219,6 +219,16 @@
 	    	var that = $(this);
 	    	deleteFileWrtPage(that);	
 	   });
+	    
+	    // submit 버튼 작동시
+	    $(document).ready(function() {
+		   $("#writeForm").submit(function (e) {
+			   e.preventDefault();
+			   var that = $(this);
+			   filesSubmit(that);
+		   });
+	    });
+	   
     </script> 
 </body>
 </html>

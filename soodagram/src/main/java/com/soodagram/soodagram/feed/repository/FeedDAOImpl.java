@@ -24,4 +24,6 @@ public class FeedDAOImpl implements FeedDAO {
 		sqlSession.insert(NAMESAPCE + ".writeFeed", feedVO);
 	}
 
+	
+	
 }

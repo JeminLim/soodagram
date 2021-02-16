@@ -6,11 +6,16 @@
 <mapper namespace = "com.soodagram.soodagram.mappers.feed.FeedMapper">
 	
 	<insert id="writeFeed">
+		
 		INSERT INTO tbl_feed (
 			content
 		) VALUES (
 			#{content}
 		)		
+		
+		<selectKey resultType="int" keyProperty="feedNo" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		
 	</insert>
 

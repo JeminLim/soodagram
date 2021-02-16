@@ -7,6 +7,7 @@ public class FeedVO {
 	private String content;
 	private Date regDate;
 	private Date updateDate;
+	private String[] files;
 	
 	public Integer getFeedNo() {
 		return feedNo;
@@ -33,6 +34,12 @@ public class FeedVO {
 		this.updateDate = updateDate;
 	}
 	
+	public String[] getFiles() {
+		return files;
+	}
+	public void setFiles(String[] files) {
+		this.files = files;
+	}
 	@Override
 	public String toString() {
 		return "FeedVO [feedNo=" + feedNo + ", content=" + content + ", regDate=" + regDate + ", updateDate="
