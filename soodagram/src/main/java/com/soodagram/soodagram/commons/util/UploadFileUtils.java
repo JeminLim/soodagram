@@ -32,7 +32,7 @@ public class UploadFileUtils {
 		String uuidFileName = getUUIDFileName(originFileName);
 		
 		// 3. 파일 업로드 경로 설정
-		String rootPath = getRootPath(originFileName, request);
+		String rootPath = getRootPath(request);
 		String datePath = getDatePath(rootPath);
 		
 		// 4. 파일 복사
@@ -50,7 +50,7 @@ public class UploadFileUtils {
 	public static void deleteFile(String fileName, HttpServletRequest request) {
 		
 		// 경로 찾기
-		String rootPath = getRootPath(fileName, request);
+		String rootPath = getRootPath(request);
 		
 		// 원본 이미지 파일 삭제
 		String originalImg = fileName.substring(0, 12) + fileName.substring(14);
@@ -75,7 +75,7 @@ public class UploadFileUtils {
 	}
 	
 	// 업로드 기본 루트
-	public static String getRootPath(String fileName, HttpServletRequest request) {
+	public static String getRootPath(HttpServletRequest request) {
 		
 		String rootPath = "/resources/dist/upload";
 		// getRealPath 까지는 webapp 폴더 까지 의미하며, root path 와 별도의 폴더를 지정해주는 것

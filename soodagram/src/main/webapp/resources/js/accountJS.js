@@ -53,7 +53,10 @@ $(document).ready(function() {
 		
 	});
 });
-   
+
+
+
+
 
 // 파일 업로드 Ajax 통신
 function uploadFile(formData) {
@@ -119,6 +122,7 @@ function deleteFile(url, that) {
 	});	
 }
 
+// 파일 정보
 function getFileInfo(fullName){	
 	var fileName; // 파일명
 	var imgSrc; // 썸네일 파일 요청 URL

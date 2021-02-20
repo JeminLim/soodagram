@@ -2,6 +2,7 @@ package com.soodagram.soodagram.feed.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,6 +15,7 @@ import com.soodagram.soodagram.feed.domain.FeedVO;
 import com.soodagram.soodagram.feed.repository.FeedDAO;
 import com.soodagram.soodagram.feed.repository.FeedFileDAO;
 import com.soodagram.soodagram.feed.repository.FeedHashtagDAO;
+import com.soodagram.soodagram.user.domain.UserVO;
 
 @Service
 public class FeedServiceImpl implements FeedService {
@@ -31,7 +33,7 @@ public class FeedServiceImpl implements FeedService {
 	
 	@Transactional
 	@Override
-	public void wrtieFeed(FeedVO feedVO) throws Exception {
+	public void wrtieFeed(FeedVO feedVO) throws Exception {		
 		// 단어 분리
 		String[] splitedContent = feedVO.getContent().split(" ");
 		// 해시태그 추출
@@ -71,5 +73,10 @@ public class FeedServiceImpl implements FeedService {
 			feedFileDAO.uploadFile(feedFileVO);
 		}
 		
+	}
+
+	@Override
+	public List<FeedVO> getMyFeed(UserVO userVO) throws Exception {
+		return feedDAO.getMyFeed(userVO);
 	}
 }

@@ -11,7 +11,7 @@ public interface UserDAO {
 	int duplicateId(String userId) throws Exception;
 	
 	// 정보갱신
-	
+	void uploadUserImg(UserVO userVO) throws Exception;
 	
 	// 정보열람
 	

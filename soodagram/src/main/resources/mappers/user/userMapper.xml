@@ -58,4 +58,15 @@
 			user_email = #{userEmail}
 	</select>
 	
+	
+	<!-- #### 회원 정보 업데이트 #### -->
+	<!-- 프로필 사진 변경 -->
+	<update id="uploadUserImg">
+		UPDATE tbl_user
+		SET user_img = #{userImg}
+		WHERE
+			user_email = #{userEmail}
+	</update>
+	
+	
 </mapper>

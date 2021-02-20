@@ -41,6 +41,12 @@ public class UserServiceImpl implements UserService {
 	public UserVO login(LoginDTO loginDTO) throws Exception {
 		return userDAO.login(loginDTO);
 	}
+
+
+	@Override
+	public void uploadUserImg(UserVO userVO) throws Exception {
+		userDAO.uploadUserImg(userVO);
+	}
 	
 	
 

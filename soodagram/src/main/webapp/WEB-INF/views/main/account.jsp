@@ -20,13 +20,15 @@
         <div class="row pt-5">    
           <div class="col-md-2"></div>
           <!-- Profile-img -->      
-          <div class="col-md-3 text-center">
+          <div class="col-md-3 text-center">            
             <img
-                src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"
+                src="${login.userImg}"
                 class="rounded-circle"
                 height="160"
                 alt="Avatar"
-            /> 
+                id="profileImg"
+            />
+            <input type="file" id="profileImgUpload" style="display:none;" /> 
           </div>
           <!-- Profile abstact -->
           <div class="col-md-7">
@@ -57,9 +59,14 @@
         </div>
         <div class="row">
           <div class="col-md-2"></div>
-          <div class="col-md-4">
-            <img src="${path}/resources/static/picture_sample.jpg" alt="sample" height="400" width="350"/>
-          </div>
+          <c:forEach items="${myFeed}" var="myFeed">
+          	<div class="col-md-3 mx-2">
+          		<c:if test="${!empty myFeed.fileVO}">
+          			<img class="myFeedImg" src="/resources/dist/upload/media/${myFeed.fileVO[0].fileName}" alt="sample" height="250" width="250"/>
+          		</c:if>
+          	</div>
+          </c:forEach>
+          
         </div>
       </div>
 
@@ -213,6 +220,7 @@
     <script type="text/javascript" src="${path}/resources/js/accountJS.js"> </script>    
       
     <script> 
+    
 	    // 버튼 클릭시 삭제
 	   $(document).on("click", ".delBtn", function(e) {
 	    	e.preventDefault();
@@ -227,8 +235,38 @@
 			   var that = $(this);
 			   filesSubmit(that);
 		   });
-	    });
-	   
+	    });	   
+
+		 // 프로필 이미지 클릭
+		 $(document).ready(function() {
+		 	$("#profileImg").click(function(e) {
+		 		e.preventDefault();	
+		 		$("#profileImgUpload").click();
+		 	});
+		 });
+		 
+
+		// 프로필 등록시 ajax 통신
+		 $(document).ready(function() {
+		 	$("#profileImgUpload").on("change", function(e) {
+		 		e.preventDefault();
+		 		var imgSrc = $("#profileImgUpload")[0].files[0];	
+		 		var formData = new FormData();
+		 		formData.append("file", imgSrc);
+		 		$.ajax({
+		 			url: "/main/account/uploadUserImg",
+		 			data: formData,
+		 			dataType: "text",
+		 			processData: false,
+		 			contentType: false,
+		 			type: "POST",
+		 			success: function(result) {				
+		 				$("#profileImg").attr("src", "/resources/dist/upload/media/" + result);
+		 			}
+		 		});
+		 	});		
+		 });
+		
     </script> 
 </body>
 </html>

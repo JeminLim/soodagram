@@ -7,6 +7,7 @@
 	<typeAliases>
 		 <typeAlias type="com.soodagram.soodagram.user.domain.UserVO" alias="UserVO"/>
 		 <typeAlias type="com.soodagram.soodagram.feed.domain.FeedVO" alias="FeedVO"/>
+		 <typeAlias type="com.soodagram.soodagram.feed.domain.FeedFileVO" alias="FileVO"/>
 		 <typeAlias type="com.soodagram.soodagram.feed.domain.FeedHashtagVO" alias="HashtagVO"/>
 	</typeAliases>
 </configuration>

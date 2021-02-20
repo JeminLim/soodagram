@@ -40,4 +40,10 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne(NAMESPACE + ".login", loginDTO);
 	}
 
+	@Override
+	public void uploadUserImg(UserVO userVO) throws Exception {
+		sqlSession.insert(NAMESPACE + ".uploadUserImg", userVO);
+		
+	}
+
 }
