@@ -51,8 +51,8 @@ public class AccountFeedController {
 		
 		logger.info("load current user feed");
 		List<FeedVO> feed = feedService.getMyFeed(loginUser);
-		model.addAttribute("myFeed", feed);
 		
+		model.addAttribute("myFeed", feed);
 		
 		
 		return "/main/account";
@@ -128,7 +128,7 @@ public class AccountFeedController {
 		ResponseEntity<String> entity = null;
 		try {
 			String savedFilePath = UploadFileUtils.uploadFile(file, request);
-			loginUser.setUserImg("/resources/dist/upload" + savedFilePath);
+			loginUser.setUserImg("/resources/dist/upload/media" + savedFilePath);
 			userService.uploadUserImg(loginUser);			
 			entity = new ResponseEntity<>(savedFilePath, HttpStatus.CREATED);
 		} catch(Exception e) {

@@ -3,14 +3,23 @@ package com.soodagram.soodagram.feed.domain;
 import java.util.Date;
 import java.util.List;
 
+import com.soodagram.soodagram.user.domain.UserVO;
+
 public class FeedVO {
 	private Integer feedNo;
 	private String content;
 	private Date regDate;
 	private Date updateDate;
 	private String userEmail;
-	private String[] files;
+	
+	
+	// from feed_img table
+	private String[] files;	
 	private List<FeedFileVO> fileVO;
+	
+	// from user table	
+	private String userId;
+	private String userImg;
 	
 	public Integer getFeedNo() {
 		return feedNo;
@@ -37,11 +46,11 @@ public class FeedVO {
 		this.updateDate = updateDate;
 	}	
 	
-	public String getUserEmail() {
-		return userEmail;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String[] getFiles() {
 		return files;
@@ -55,6 +64,19 @@ public class FeedVO {
 	}
 	public void setFileVO(List<FeedFileVO> fileVO) {
 		this.fileVO = fileVO;
+	}
+	public String getUserImg() {
+		return userImg;
+	}
+	public void setUserImg(String userImg) {
+		this.userImg = userImg;
+	}
+	
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 	@Override
 	public String toString() {

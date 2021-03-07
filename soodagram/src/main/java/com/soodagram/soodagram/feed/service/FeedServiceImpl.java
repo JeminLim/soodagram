@@ -1,6 +1,7 @@
 package com.soodagram.soodagram.feed.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,6 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.soodagram.soodagram.feed.domain.FeedFileVO;
 import com.soodagram.soodagram.feed.domain.FeedVO;
@@ -78,5 +78,19 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public List<FeedVO> getMyFeed(UserVO userVO) throws Exception {
 		return feedDAO.getMyFeed(userVO);
+	}
+
+	@Override
+	public List<FeedVO> getFollowingFeed(UserVO userVO) throws Exception {
+		return feedDAO.getFollowingFeed(userVO);
+	}
+	
+	@Override
+	public List<FeedVO> getMoreFeed(UserVO userVO, int minFeedNo) throws Exception {
+		Map<String, Object> input = new HashMap<String, Object>();
+		input.put("user", userVO);
+		input.put("maxFeedNo", minFeedNo);
+		
+		return feedDAO.getMoreFeed(input);
 	}
 }

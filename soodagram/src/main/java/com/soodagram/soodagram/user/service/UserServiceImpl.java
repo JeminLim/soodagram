@@ -1,5 +1,7 @@
 package com.soodagram.soodagram.user.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -46,6 +48,25 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void uploadUserImg(UserVO userVO) throws Exception {
 		userDAO.uploadUserImg(userVO);
+	}
+
+
+	@Override
+	public List<UserVO> getRecommendUserList(UserVO userVO) throws Exception {
+		return userDAO.getRecommendUserList(userVO);
+		
+	}
+
+
+	@Override
+	public List<UserVO> getFollowerList(UserVO userVO) throws Exception {
+		return userDAO.getFollowerList(userVO);
+	}
+
+
+	@Override
+	public List<UserVO> getFollowingList(UserVO userVO) throws Exception {
+		return userDAO.getFollowingList(userVO);
 	}
 	
 	

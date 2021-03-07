@@ -7,7 +7,7 @@
 
 	<resultMap type="UserVO" id="UserResultMap">
 		<id property="userEmail" column="user_email"/>
-		<result property="userPw" column="user_pw"/>
+		<result property="userPw" column="user_pw" />
 		<result property="userName" column="user_name"/>
 		<result property="userId" column="user_id"/>
 		<result property="userPhone" column="user_phone"/>
@@ -67,6 +67,62 @@
 		WHERE
 			user_email = #{userEmail}
 	</update>
+	<!-- 개인정보 갱신 -->
 	
+	
+	<!-- #### 유저 팔로우 팔로워 로직 ##### -->
+	<!-- 유저 팔로우 -->
+	<insert id="userFollow">
+		INSERT INTO tbl_user_follow(
+			based_user,
+			target_user
+		) VALUES (
+			#{login.userEmail},
+			#{target.userEmail}
+		)
+	</insert>
+	
+	<!-- 팔로워 리스트 -->
+	<select id="getFollowerList" resultMap="UserResultMap">
+		SELECT *
+		FROM tbl_user AS tu
+		INNER JOIN tbl_user_follow AS tuf
+		ON tu.user_email = tuf.target_user
+		WHERE tuf.based_user = #{userEmail}
+	</select>
+	
+	<!-- 팔로잉 리스트 -->
+	<select id="getFollowingList" resultMap="UserResultMap">
+		SELECT *
+		FROM tbl_user AS tu
+		INNER JOIN tbl_user_follow AS tuf
+		ON tu.user_email = tuf.based_user
+		WHERE tuf.target_user = #{userEmail}
+	</select>
+	
+	
+	<!-- #### 유저 정보 조회 #### -->
+	<!-- 유저 정보 조회 -->
+	<select id="getUserInfo" resultMap="UserResultMap">	
+		SELECT 
+			*
+		FROM tbl_user
+		WHERE
+			user_email = #{userEmail}
+	</select>
+	
+	<!-- #### 유저 추천 #### -->
+	<!-- 유저 추천 (팔로잉 및 본인 아이디 제외 순서대로 출력) -->
+	<select id="getUserList" resultMap="UserResultMap">
+		SELECT *
+		FROM tbl_user AS tu
+		WHERE tu.user_email NOT IN (
+			SELECT tuf.target_user
+			FROM tbl_user_follow AS tuf
+			WHERE tuf.based_user = #{userEmail}
+		) AND tu.user_email != #{userEmail}
+		LIMIT 5;
+			
+	</select>
 	
 </mapper>

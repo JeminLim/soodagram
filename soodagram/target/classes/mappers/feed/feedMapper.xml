@@ -11,6 +11,8 @@
 		<result property="regDate" column="reg_date" />
 		<result property="updateDate" column="update_date" />
 		<result property="userEmail" column="user_email" />
+		<result property="userId" column="user_id" />	
+		<result property="userImg" column="user_img"/>
 		<collection property="fileVO" javaType="java.util.ArrayList" resultMap="FileResultMap"/>
 	</resultMap>
 	
@@ -56,5 +58,60 @@
 			ORDER BY reg_date DESC, update_date DESC			
 		]]>
 	</select>
+
+	<!-- 팔로잉 하는 유저의 초기 피드 받아오기 -->
+	<select id="getFollowingFeed" parameterType="UserVO" resultMap="FeedResultMap">
+		<![CDATA[
+			SELECT
+				feed.feed_no,
+				feed.content,
+				feed.reg_date,
+				feed.update_date,
+				feed.user_email,
+				tu.user_id,
+				tu.user_img,
+				tfi.file_name
+			FROM
+				tbl_feed as feed
+			INNER JOIN tbl_feed_img as tfi
+			ON  feed.feed_no = tfi.feed_no
+			INNER JOIN tbl_user AS tu
+			ON feed.user_email = tu.user_email
+			LEFT JOIN tbl_user_follow AS tuf
+			ON feed.user_email = tuf.target_user
+			WHERE
+				tuf.based_user = #{userEmail}
+			ORDER BY feed_no DESC, update_date DESC
+		]]>
+	</select>
+	
+	<!-- 스크롤 피드 수신 -->
+	<select id="getMoreFeed" parameterType="hashMap" resultMap="FeedResultMap">
+		<![CDATA[
+			SELECT
+				feed.feed_no,
+				feed.content,
+				feed.reg_date,
+				feed.update_date,
+				feed.user_email,
+				tu.user_id,
+				tu.user_img,
+				tfi.file_name
+			FROM
+				tbl_feed as feed
+			INNER JOIN tbl_feed_img as tfi
+			ON  feed.feed_no = tfi.feed_no
+			INNER JOIN tbl_user AS tu
+			ON feed.user_email = tu.user_email
+			LEFT JOIN tbl_user_follow AS tuf
+			ON feed.user_email = tuf.target_user
+			WHERE
+				tuf.based_user = #{user.userEmail}
+				AND feed.feed_no > #{minFeedNo}
+			ORDER BY feed_no DESC, update_date DESC
+			LIMIT 0, 5
+		]]>
+	</select>
+	
 
 </mapper>

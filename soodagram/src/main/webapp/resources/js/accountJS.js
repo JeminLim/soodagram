@@ -54,10 +54,6 @@ $(document).ready(function() {
 	});
 });
 
-
-
-
-
 // 파일 업로드 Ajax 통신
 function uploadFile(formData) {
 	$.ajax({

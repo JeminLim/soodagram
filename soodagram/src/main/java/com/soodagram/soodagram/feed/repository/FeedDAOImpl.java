@@ -32,6 +32,17 @@ public class FeedDAOImpl implements FeedDAO {
 	public List<FeedVO> getMyFeed(UserVO userVO) throws Exception {		
 		return sqlSession.selectList(NAMESAPCE + ".getMyFeed", userVO);
 	}
+	
+	@Override
+	public List<FeedVO> getFollowingFeed(UserVO userVO) throws Exception {
+		return sqlSession.selectList(NAMESAPCE + ".getFollowingFeed", userVO);
+	}
+
+	@Override
+	public List<FeedVO> getMoreFeed(Map<String, Object> followFeedCondition) throws Exception {
+		
+		return sqlSession.selectList(NAMESAPCE + ".getMoreFeed", followFeedCondition);
+	}
 
 	
 	

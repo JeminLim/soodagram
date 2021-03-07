@@ -114,9 +114,9 @@ public class UploadFileUtils {
 	private static String makeThumbnailImg(String uploadRootPath, String datePath, String fileName) throws Exception {
 		
 		// 원본 이미지를 메모리에 로딩
-		BufferedImage originalImg = ImageIO.read(new File(uploadRootPath + datePath, fileName));
+		BufferedImage originalImg = ImageIO.read(new File(uploadRootPath + datePath, fileName));		
 		// 원본 이미지 축소
-		BufferedImage thumbnailImg = Scalr.resize(originalImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);
+		BufferedImage thumbnailImg = Scalr.resize(originalImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_WIDTH, 510 );		
 		// 썸네일 파일명
 		String thumbnailImgName = "s_" + fileName;
 		// 썸네일 업로드 경로
