@@ -86,7 +86,6 @@ function printFiles(data) {
 // 게시글 입력/ 수정 submit 처리시에 첨부파일 정보도 함께 처리
 function filesSubmit(that) {
 	var str = "";
-	// 여기서 value에 대해서 imgSrc 일텐데? 
 	$(".delBtn").each(function(index){
 		str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "'>"
 	});

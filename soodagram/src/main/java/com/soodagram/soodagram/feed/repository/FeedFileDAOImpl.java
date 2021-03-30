@@ -1,5 +1,7 @@
 package com.soodagram.soodagram.feed.repository;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -22,6 +24,11 @@ public class FeedFileDAOImpl implements FeedFileDAO {
 	@Override
 	public void uploadFile(FeedFileVO feedFileVO) throws Exception {
 		sqlSession.insert(NAMESPACE + ".uploadFile", feedFileVO);		
+	}
+
+	@Override
+	public List<String> getFileNames(int feedNo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + "getFileList", feedNo);
 	}
 
 }

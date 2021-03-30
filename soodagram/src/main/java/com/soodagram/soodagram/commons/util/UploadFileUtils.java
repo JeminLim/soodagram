@@ -47,11 +47,7 @@ public class UploadFileUtils {
 		
 	}
 	
-	public static void deleteFile(String fileName, HttpServletRequest request) {
-		
-		// 경로 찾기
-		String rootPath = getRootPath(request);
-		
+	public static void deleteFile(String fileName, String rootPath) {
 		// 원본 이미지 파일 삭제
 		String originalImg = fileName.substring(0, 12) + fileName.substring(14);
 		new File(rootPath + originalImg.replace('/', File.separatorChar)).delete();

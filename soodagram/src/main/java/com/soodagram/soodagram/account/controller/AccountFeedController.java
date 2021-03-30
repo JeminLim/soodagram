@@ -49,10 +49,20 @@ public class AccountFeedController {
 		HttpSession httpSession = request.getSession();
 		UserVO loginUser = (UserVO) httpSession.getAttribute("login");
 		
+		//현재 작성 피드
 		logger.info("load current user feed");
 		List<FeedVO> feed = feedService.getMyFeed(loginUser);
-		
 		model.addAttribute("myFeed", feed);
+		
+		//추천 목록
+		List<UserVO> recommendList = userService.getRecommendUserList(loginUser);
+		model.addAttribute("recommendList", recommendList);
+		
+		//팔로잉, 팔로워 리스트
+		List<UserVO> followerList = userService.getFollowerList(loginUser);
+		List<UserVO> followingList = userService.getFollowingList(loginUser);
+		model.addAttribute("followerList", followerList);
+		model.addAttribute("followingList", followingList);
 		
 		
 		return "/main/account";
@@ -65,6 +75,7 @@ public class AccountFeedController {
 		UserVO loginUser = (UserVO) httpSession.getAttribute("login");
 
 		feedVO.setUserEmail(loginUser.getUserEmail());
+		feedVO.setUserVO(loginUser);
 		
 		// 피드 컨텐츠 등록
 		feedService.wrtieFeed(feedVO);
@@ -77,7 +88,8 @@ public class AccountFeedController {
 		ResponseEntity<String> entity = null;
 		
 		try {
-			UploadFileUtils.deleteFile(fileName, request);
+			String rootPath = UploadFileUtils.getRootPath(request);
+			UploadFileUtils.deleteFile(fileName, rootPath);
 			entity = new ResponseEntity<>("DELETED", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,6 +148,47 @@ public class AccountFeedController {
 		}
 		
 		return entity;
+	}
+	
+	@RequestMapping(value="/deleteFeed", method = RequestMethod.POST)
+	@ResponseBody
+	public void deleteFeed(@RequestParam("feedNo") int feedNo, HttpServletRequest request) throws Exception {
+		
+		String rootPath = UploadFileUtils.getRootPath(request);
+		
+		feedService.deleteFeed(feedNo, rootPath);
+		
+		logger.info("feed - " + feedNo + "deleted");
+		
+	}
+	
+	
+	@RequestMapping(value="/user", method=RequestMethod.GET)
+	public String getOtherUserFeed(@RequestParam("userId") String userId, Model model, HttpServletRequest request) throws Exception {		
+		//로그인 한 사용자
+		HttpSession httpSession = request.getSession();
+		UserVO loginUser = (UserVO)httpSession.getAttribute("login");		
+		
+		//현재 작성 피드
+		logger.info("load " + userId + " user feed");
+		
+		UserVO targetUser = userService.getUserInfoById(userId);
+		model.addAttribute("targetUser", targetUser);
+		
+		List<FeedVO> feed = feedService.getMyFeed(targetUser);
+		model.addAttribute("targetFeed", feed);		
+		
+		//유저 팔로잉 리스트
+		List<UserVO> userFollowingList = userService.getFollowingList(loginUser);
+		model.addAttribute("userFollowingList", userFollowingList);
+		
+		//팔로잉, 팔로워 리스트
+		List<UserVO> followerList = userService.getFollowerList(targetUser);
+		List<UserVO> followingList = userService.getFollowingList(targetUser);
+		model.addAttribute("targetFollowerList", followerList);
+		model.addAttribute("targetFollowingList", followingList);
+		
+		return "/main/userFeed";
 	}
 	
 }

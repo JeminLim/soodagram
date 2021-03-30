@@ -1,0 +1,39 @@
+package com.soodagram.soodagram.feed.repository;
+
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class FeedLikeDAOImpl implements FeedLikeDAO {
+
+	private static final String NAMESPACE = "com.soodagram.soodagram.mappers.feed.FeedLikeMapper";
+	
+	private final SqlSession sqlSession;
+	
+	@Inject
+	public FeedLikeDAOImpl(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
+	
+	@Override
+	public void insertLike(Map<String, Object> likeInput) throws Exception {
+		sqlSession.insert(NAMESPACE + ".insertLike", likeInput);
+	}
+
+	@Override
+	public void cancelLike(Map<String, Object> likeInput) throws Exception {
+		sqlSession.delete(NAMESPACE + ".deleteLike", likeInput);
+	}
+
+	@Override
+	public int duplicateCheck(Map<String, Object> likeInput) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".isCancel", likeInput);
+	}
+	
+	
+
+}

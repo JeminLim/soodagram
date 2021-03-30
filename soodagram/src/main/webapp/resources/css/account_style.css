@@ -62,7 +62,16 @@
 .myFeedImg {
     margin-right: 10px;
     padding: 0;
-    margin-bottom: 10px;
+    margin-bottom: 10px;    
+}
+
+.btnRow {
+	margin-top: 10px;
+	padding-left: 40%;
+}
+
+.feedDelBtn{
+	margin: auto;
 }
 
 .feedImg{
@@ -130,3 +139,4 @@
 .recommandList{
     margin-bottom: 10px;
 }
+

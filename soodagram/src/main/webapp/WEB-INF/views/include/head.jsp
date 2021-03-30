@@ -13,4 +13,5 @@
     <link rel="stylesheet" href="${path}/resources/css/bootstrap.css"/>
     <link rel="stylesheet" href="${path}/resources/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="${path}/resources/css/nav_style.css"/>
+    
 </head>

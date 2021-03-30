@@ -5,25 +5,45 @@
         
 <mapper namespace = "com.soodagram.soodagram.mappers.feed.FeedMapper">
 	
+	<!-- ResultMap -->
+	<!-- Feed Result Map -->
 	<resultMap id="FeedResultMap" type="FeedVO">
 		<id property="feedNo" column="feed_no"/>
 		<result property="content" column="content" />
 		<result property="regDate" column="reg_date" />
 		<result property="updateDate" column="update_date" />
 		<result property="userEmail" column="user_email" />
-		<result property="userId" column="user_id" />	
+		<result property="totalLike" column="total_like" />
+		<result property="totalReplies" column="total_replies" />
+		<association property="userVO" column="user_email" javaType="UserVO" resultMap="UserResultMap" />
+		<collection property="fileVO" column="feed_no" ofType="FileVO" select="getFeedFile"/>
+	</resultMap>
+	
+	<resultMap id="UserResultMap" type="UserVO">
+		<id property="userEmail" column="user_email"/>
+		<result property="userId" column="user_id"/>
 		<result property="userImg" column="user_img"/>
-		<collection property="fileVO" javaType="java.util.ArrayList" resultMap="FileResultMap"/>
 	</resultMap>
 	
 	<resultMap id="FileResultMap" type="FileVO">
 		<id property="fileName" column="file_name" />
 		<result property="feedNo" column="feed_no" />
 		<result property="regDate" column="reg_date" />
-	</resultMap>	
+	</resultMap>
 	
+	<select id="getFeedFile" resultMap="FileResultMap">
+		SELECT
+			file_name,
+			feed_no,
+			reg_date
+		FROM tbl_feed_img
+		WHERE
+			feed_no = #{feedNo}
+	</select>	
+	
+	<!-- ######################################## Feed SQL ############################################### -->
 	<!-- Feed 등록 -->
-	<insert id="writeFeed" parameterType="hashMap">
+	<insert id="writeFeed" parameterType="FeedVO">
 		
 		INSERT INTO tbl_feed (
 			content,
@@ -41,77 +61,54 @@
 
 	<!-- 본인 피드 정보 받기 -->
 	<select id="getMyFeed" parameterType="UserVO" resultMap="FeedResultMap">
-		<![CDATA[
-			SELECT
-				feed.feed_no,
-				feed.content,
-				feed.reg_date,
-				feed.update_date,
-				feed.user_email,
-				file.file_name
-			FROM
-				tbl_feed as feed
-			LEFT JOIN tbl_feed_img as file
-			ON  (feed.feed_no = file.feed_no)
-			WHERE
-				feed.user_email = #{userEmail}	
-			ORDER BY reg_date DESC, update_date DESC			
-		]]>
+		SELECT *
+		FROM tbl_feed
+		WHERE
+			user_email = #{userEmail}
 	</select>
 
 	<!-- 팔로잉 하는 유저의 초기 피드 받아오기 -->
-	<select id="getFollowingFeed" parameterType="UserVO" resultMap="FeedResultMap">
-		<![CDATA[
-			SELECT
-				feed.feed_no,
-				feed.content,
-				feed.reg_date,
-				feed.update_date,
-				feed.user_email,
-				tu.user_id,
-				tu.user_img,
-				tfi.file_name
-			FROM
-				tbl_feed as feed
-			INNER JOIN tbl_feed_img as tfi
-			ON  feed.feed_no = tfi.feed_no
-			INNER JOIN tbl_user AS tu
-			ON feed.user_email = tu.user_email
-			LEFT JOIN tbl_user_follow AS tuf
-			ON feed.user_email = tuf.target_user
-			WHERE
-				tuf.based_user = #{userEmail}
-			ORDER BY feed_no DESC, update_date DESC
-		]]>
+	<select id="getFollowingFeed" resultMap="FeedResultMap">
+		SELECT 
+			tf.feed_no,
+			tf.content,
+			tf.reg_date,
+			tf.update_date,
+			tf.user_email,
+			tu.user_id,
+			tu.user_img,
+			(SELECT COUNT(like_no) FROM tbl_feed_like AS tfl WHERE tfl.feed_no = tf.feed_no) AS total_like,
+			(SELECT COUNT(reply_no) FROM tbl_reply AS tr WHERE tr.feed_no = tf.feed_no) AS total_replies		
+		FROM tbl_feed as tf
+		INNER JOIN tbl_user_follow as tuf
+		ON tf.user_email = tuf.target_user
+		LEFT JOIN tbl_user AS tu
+		ON tf.user_email = tu.user_email
+		WHERE
+			tuf.based_user = #{userVO.userEmail}
+		ORDER BY
+			tf.feed_no DESC, tf.update_date DESC
+		LIMIT #{page}, 6		
 	</select>
 	
-	<!-- 스크롤 피드 수신 -->
-	<select id="getMoreFeed" parameterType="hashMap" resultMap="FeedResultMap">
-		<![CDATA[
-			SELECT
-				feed.feed_no,
-				feed.content,
-				feed.reg_date,
-				feed.update_date,
-				feed.user_email,
-				tu.user_id,
-				tu.user_img,
-				tfi.file_name
-			FROM
-				tbl_feed as feed
-			INNER JOIN tbl_feed_img as tfi
-			ON  feed.feed_no = tfi.feed_no
-			INNER JOIN tbl_user AS tu
-			ON feed.user_email = tu.user_email
-			LEFT JOIN tbl_user_follow AS tuf
-			ON feed.user_email = tuf.target_user
-			WHERE
-				tuf.based_user = #{user.userEmail}
-				AND feed.feed_no > #{minFeedNo}
-			ORDER BY feed_no DESC, update_date DESC
-			LIMIT 0, 5
-		]]>
+	<!-- 피드 삭제 -->
+	<delete id="deleteFeed" parameterType="int">
+		DELETE FROM tbl_feed
+		WHERE
+			feed_no = #{feedNo}
+	</delete>
+	
+	
+	<!-- 해시태그 검색 피드 찾기 -->
+	<select id="getHashtagFeed" resultMap="FeedResultMap">
+		SELECT *
+		FROM tbl_feed as tf
+		INNER JOIN tbl_hashtag as th
+		ON th.feed_no = tf.feed_no
+		WHERE
+			hashtag_name = #{hashtagName}
+			
 	</select>
 	
-
+	
 </mapper>

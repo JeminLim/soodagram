@@ -16,4 +16,11 @@
 		
 	</insert>
 	
+	<select id="getFileList">
+		SELECT file_name
+		FROM tbl_feed_img
+		WHERE
+			feed_no = #{feedNo}
+	</select>
+	
 </mapper>

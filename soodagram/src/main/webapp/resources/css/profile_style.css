@@ -1,33 +1,89 @@
 @charset "UTF-8";
- .menu-list{
-      list-style:none;
-      margin: 20px 0;
-}
-#profile-img{
-  margin-left:100px;
+
+.main-container {
+    background-color: white;
+    margin-left: 23%;
+    margin-right: 27%;
+    flex-direction: row;
 }
 
-h3{
-  margin-left: 20px;
+.border-grey {
+    border: 1px solid #BBBBBB;    
 }
 
-#change_profile_img{
-  background-color: transparent !important;
-  border: none;
-  color: blue;
-  font-size: 12px;
-  padding: 0;
+.leftMenu {
+    margin-bottom: 0;
 }
 
-.aside-input.col-md-3{
-  padding-right: 4%;
-  text-align: right;
+.leftMenu-li {
+    margin-top: 15px;
+    padding: 10px;
 }
 
-.menu-list.deactivated{
-  color: #d3d3d3;
+.leftMenu-li-list{
+    font-size: 18px;
+    color: black;
 }
 
-.profile-input{
-  width: 60%;
+.displayflex {
+    display: flex;
+}
+
+.leftSection {
+    padding-right: 20px;
+    margin-top: 5%;
+    text-align: right;
+    font-size: 20px;
+}
+
+.rightSection {
+    margin-top: 5%;
+    text-align: left;
+    padding-right: 20%;
+    font-size: 15px;
+}
+
+.loginUserImg{
+	border-radius: 50%;
+}
+
+#userId {
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.infoInput {
+    width: 100%;
+    height: 40px;
+}
+
+.infoInput::-webkit-input-placeholder{
+    padding-left: 10px;
+    text-align: left;
+}
+
+.additionalInfo {
+    margin-top: 15px;
+    color: #BBBBBB;
+    font-size: 15px;
+}
+
+.desc{
+    margin-bottom: 0;
+}
+
+.descInfo {
+    font-size: 12px;
+}
+
+.btnRow {
+    text-align: center;
+    margin: 15px 10px;
+}
+
+.disabled {
+    color: #BBBBBB;
+    pointer-events: none;
 }

@@ -42,7 +42,7 @@
 		
         </div>  
         
-        <div class="col-md-2">
+        <div class="col-md-3">
           <section class="feedAside">
             <!-- current User -->
             <div class="container-fluid">
@@ -76,8 +76,7 @@
                 <small>회원님을 위한 추천</small>
                 <small class="float-right"><b>모두 보기</b></small>
               </div>
-              <!-- Suggested users -->              
-                
+              <!-- Suggested users -->   
                   <c:forEach items="${recommendList}" var="recommendList">
                   	<div class="row">
 	                  <div class="col-md-2 sugUserImg">
@@ -88,7 +87,7 @@
 	                      alt="Avatar"
 	                    />
 	                  </div>
-	                  <div class="col-md-6">
+	                  <div class="col-md-5">
 	                    <ul class="ml-1 px-3 mt-1 list-unstyled">
 	                      <li>
 	                        <small class="user-name"><strong>${recommendList.userId}</strong></small>
@@ -99,7 +98,7 @@
 	                    </ul>
 	                  </div>
 	                  <div class="col-md-2">
-	                    <p class="user-name mt-2 text-primary"><b>Follow</b></p>
+	                    <button type="button" id="followBtn_${recommendList.userEmail}" class="followBtn" style="border: none; background-color: white; color: blue; outline: none;">팔로우</button>
 	                  </div>	                  
                 	</div>
                   </c:forEach>
@@ -109,195 +108,57 @@
     </main>
     
     <%@ include file="../include/plugin_js.jsp" %>
-    <script id="feedTemplate" type="text/x-handlerbars-template">
-	  {{#each feedList}}
-		<section class="newsFeed">
-	            <div class="post">
-	              <div class="card">
-	                <div class="card-body">
-	                  <div class="container-fluid">
-	                    <!-- Author -->
-	                    <div class="row authorRow">
-	                      <div class="col-md-11">
-	                        <div class="author">
-	                          <img
-	                            src="{{userImg}}"
-	                            class="rounded-circle authorUser"
-	                            height="40"
-	                            alt="Avatar"                              
-	                          />
-	                          <a href="#" class="authorUser">
-	                            <strong>{{userId}}</strong>                                
-	                          </a>
-	                        </div>
-	                      </div>
-	                      <div class="col-md-1 authorMenu">                         
-	                        <i class="fas fa-ellipsis-h fa-lf"></i>
-	                      </div>
-	                    </div>                      
-	                  </div>
-	                </div>      
-           
-	                 <div id="feedCarousel{{@index}}" class="carousel slide" data-ride="carousel" data-interval="false">	                 		                     
-		                     <!-- indicators -->
-		                     <ol class="carousel-indicators">	                 
-								{{#each fileVO}} 
-									{{#if @first}}
-										<li data-target="#feedCarousel{{@../index}}" data-slide-to="{{@index}}" class="active"></li>
-									{{else}}
-										<li data-target="#feedCarousel{{@../index}}" data-slide-to="{{@index}}"></li>
-									{{/if}}
-								{{/each}}
-		                     </ol>
-		                     
-		                     <!-- Wrapper for slides -->
-		                     <div class="carousel-inner">
-							 {{#each fileVO}}
-		                        {{#if @first}}
-		                       		<div class="item active" >
-					                   <img class="feedImg" src="/resources/dist/upload/media/{{fileName}}">
-					                </div>
-								{{else}}
-									<div class="item">
-					                   <img class="feedImg" src="/resources/dist/upload/media/{{fileName}}">
-					                 </div>	  
-								{{/if}}
-		                     {{/each}}                    
-		                     </div>
-	                     
-	                     <!-- left and right controls -->
-	                     <a class="left carousel-control" href="#feedCarousel{{@index}}" role="button" data-slide="prev">
-	                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-	                        <span class="sr-only">Previous</span>
-	                     </a>
-	                     <a class="right carousel-control" href="#feedCarousel{{@index}}" role="button" data-slide="next">
-	                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-	                      <span class="sr-only">Next</span>
-	                   </a>
-	                 </div>
-	                 
-	                 
-	
-	                <!-- interaction -->
-	                <div class="card-body">
-	                  <div class="container-fluid">
-	                    <div class="row">
-	                      <div class="col-md-11 interaction">
-	                        <i class="far fa-heart fa-lg"></i>
-	                        <i class="far fa-comment fa-lg"></i>
-	                        <i class="far fa-paper-plane fa-lg"></i>
-	                      </div>
-	                      <div class="col-md-1 interaction">
-	                        <i class="far fa-bookmark fa-lg"></i>
-	                      </div>
-	                    </div>
-	
-	                    <!-- Content-->
-	                    <div class="row mt-1">
-	                      <div class="col-md-12">
-	                        <!-- 좋아요 표시 -->
-	                        <small><strong>좋아요 1,538,457개</strong></small>
-	                      </div>
-	                    </div>
-	                    <!-- Content -->
-	                    <div class="row">
-	                      <div class="col-md-12">
-	                        <p>
-	                          <strong class="text-dark">{{userId}}</strong>
-	                          {{content}} 
-	                        </p>
-	                      </div>
-	                    </div>
-	
-	                    <!-- Reply-->
-	                    <div class="row">
-	                      <div class="col-md-12">                        
-	                        <span>댓글 58,238개</span>
-	                        <a href="#" class="unfoldReply">모두 보기</a>
-	                      </div>
-	                      <div class="col-md-12">
-	                          <p class="reply"><strong>alex_123</strong>Lorem, ipsum dolor.</p>
-	                          <p class="reply"><strong>janet_t</strong>Lorem, ipsum dolor. paokmsk</p>             
-	                        <small>22 hours ago</small>
-	                      </div>                      
-	                    </div>
-	                      
-	                    <!-- Comments form -->
-	                    <div class="row commentForm">
-	                      <div class="col-md-11">
-	                        <div class="form-outline">
-	                          <input type="text" class="form-control" placeholder="댓글 달기"/>
-	                        </div>
-	                      </div>
-	                      <div class="col-md-1 post">
-	                        <a href="#" class="text-info postBtn">게시</a>
-	                      </div>
-	
-	                    </div>
-	                  </div>
-	                </div>
-	
-	              </div>
-	            </div>
-	          </section>
-		{{/each}}
-	</script>	
-	
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-    <script> 
-       
-    	var page = 0;
-
-		var feedTemplate = Handlebars.compile($('#feedTemplate').html());	
-    	
-    	const io = new IntersectionObserver(entries => {
-    		if(entries.some(entry => entry.intersectionRatio > 0)) {
-    			loadFeeds();
-    		}
+        
+    <script src="${path}/resources/js/feedJS.js"></script>
+    <script>
+    	$(".followBtn").click(function(event){
+    		var target = event.target;
+    		var targetEmail = target.getAttribute("id").substr(10);
+    		
+    		$.ajax({
+    			url: "/main/account/follow",
+    			data: {targetEmail: targetEmail},
+    			type: "post",
+    			success: function(result) {
+    				if(result === 1) {
+    					document.getElementById('followBtn_' + targetEmail).innerText = "팔로잉";
+    					document.getElementById('followBtn_' + targetEmail).style.color = "black";
+    				} else {
+    					document.getElementById('followBtn_' + targetEmail).innerText = "팔로우";
+    					document.getElementById('followBtn_' + targetEmail).style.color = "blue";
+    				}
+    				
+    			}    			
+    		});
     	});
     	
     	
-		
-		
-    	// 초기 피드 불러오기
-    	loadFeeds();
-    	
-    	function loadFeeds() {
+    	$(".likeBtn").click(function(event){
+    		var target = event.target;
+    		var targetFeedNo = target.getAttribute("id").substr(8);
     		
-    		var feedList = [];
-    		
-    		// 1.ajax를 통해서 list를 받아옴
     		$.ajax({
-    			url: "/main/getFeed",
-    			dataType:"json",
-    			type: "POST",
+    			url: "/main/like",
+    			data: { feedNo : targetFeedNo},
+    			type: "post",
     			success: function(result) {
-    				if(result.code === "success"){
-        				feedList = result.followingFeed;
-        				
-        				// 불러올 피드가 있을 때
-        				if(feedList.length > 0) {
-	        				// 2.list를 가지고 template에 바인딩함 그냥 for가 아니라 데이터 리스트를 넘기고, template 첨부터 {{#each }} 를 하자
-							var data = { feedList : feedList };
-	    	    			var html = feedTemplate(data);    	    			
-	    	    			$("#feedSection").before(html);
-	    	    	    	// io에 div를 설정
-	    	    	    	const feedSection = document.querySelectorAll('#feedSection');
-	    	    	    	
-	    	    	    	feedSection.forEach((el) => {
-	    	    	    		io.observe(el);
-	    	    	    	});
-        				}
+    				if(result === 1) {
+    					// 좋아요 인 상태
+    					var likeIcon = document.getElementById("likeBtn_" + targetFeedNo);
+    					likeIcon.className = "fas fa-heart fa-lg likeBtn";
+    					likeIcon.parentNode.style.color = "red";
+    					
+    				} else {
+    					// 좋아요 취소 상태
+    					var likeIcon = document.getElementById("likeBtn_" + targetFeedNo);
+    					likeIcon.className = "far fa-heart fa-lg likeBtn";
+    					likeIcon.parentNode.style.color = "black";
     				}
-    			},
-    			error: function(request, status, error) {
-    				alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
     			}
     		});
-    	}
+    	});
     	
     </script>
-    <!-- <script src="${path}/resources/js/feedJS.js"></script> -->
     
 </body>
 </html>

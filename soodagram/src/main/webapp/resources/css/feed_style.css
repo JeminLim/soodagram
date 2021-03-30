@@ -36,6 +36,8 @@ body {
 	display: block;
 	width: 100%;
 	height: auto;
+	max-height: 300px;
+	min-height: 200px;
 }
 
 .authorRow {
@@ -95,4 +97,12 @@ body {
 
 .sugUserImg{
     margin-right: 5px;
+}
+
+.replyPost{
+	padding: 0;
+}
+
+.likeBtn{
+	color: black;
 }

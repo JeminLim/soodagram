@@ -13,14 +13,31 @@ public class FeedVO {
 	private String userEmail;
 	
 	
-	// from feed_img table
-	private String[] files;	
+	//업로드시
+	private String files[];
+	
+	//피드 GET
 	private List<FeedFileVO> fileVO;
+	private UserVO userVO;
 	
-	// from user table	
-	private String userId;
-	private String userImg;
+	//좋아요 개수
+	private int totalLike;
 	
+	//댓글 개수
+	private int totalReplies;
+	
+	public int getTotalReplies() {
+		return totalReplies;
+	}
+	public void setTotalReplies(int totalReplies) {
+		this.totalReplies = totalReplies;
+	}
+	public int getTotalLike() {
+		return totalLike;
+	}
+	public void setTotalLike(int totalLike) {
+		this.totalLike = totalLike;
+	}
 	public Integer getFeedNo() {
 		return feedNo;
 	}
@@ -44,20 +61,7 @@ public class FeedVO {
 	}
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
-	}	
-	
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String[] getFiles() {
-		return files;
-	}
-	public void setFiles(String[] files) {
-		this.files = files;
-	}
+	}		
 	
 	public List<FeedFileVO> getFileVO() {
 		return fileVO;
@@ -65,18 +69,29 @@ public class FeedVO {
 	public void setFileVO(List<FeedFileVO> fileVO) {
 		this.fileVO = fileVO;
 	}
-	public String getUserImg() {
-		return userImg;
-	}
-	public void setUserImg(String userImg) {
-		this.userImg = userImg;
-	}
 	
 	public String getUserEmail() {
 		return userEmail;
 	}
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
+	}	
+	
+	public UserVO getUserVO() {
+		return userVO;
+	}
+	public void setUserVO(UserVO userVO) {
+		this.userVO = userVO;
+	}
+	
+	
+	
+	
+	public String[] getFiles() {
+		return files;
+	}
+	public void setFiles(String[] files) {
+		this.files = files;
 	}
 	@Override
 	public String toString() {

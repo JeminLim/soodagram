@@ -50,6 +50,18 @@
 		</interceptor>
 	</interceptors>
 	
+	<!-- 로그인 회원 존재 시, 로그인 및 회원가입 화면 이동 방지 -->
+	<beans:bean id="loginAfterInterceptor" class="com.soodagram.soodagram.commons.interceptor.LoginAfterInterceptor"/>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/login"/>
+			<mapping path="/user/register"/>
+			<beans:ref bean="loginAfterInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	
 	<!-- 파일 업로드 MultipartResolver 설정 -->
 	<beans:bean id="multipartResolver" class = "org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760" />

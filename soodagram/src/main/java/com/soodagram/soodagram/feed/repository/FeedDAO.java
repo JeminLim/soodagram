@@ -9,6 +9,8 @@ import com.soodagram.soodagram.user.domain.UserVO;
 public interface FeedDAO {
 	void writeFeed(FeedVO feedVO) throws Exception;
 	List<FeedVO> getMyFeed(UserVO userVO) throws Exception;
-	List<FeedVO> getFollowingFeed(UserVO userVO) throws Exception;
-	List<FeedVO> getMoreFeed(Map<String, Object> followFeedCondition) throws Exception;
+	List<FeedVO> getFollowingFeed(Map<String, Object> input) throws Exception;
+	void deleteFeed(int feedNo) throws Exception;
+	
+	List<FeedVO> getHashtagFeed(String hashtagName) throws Exception;
 }

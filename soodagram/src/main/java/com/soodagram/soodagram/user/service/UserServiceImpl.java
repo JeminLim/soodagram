@@ -1,6 +1,8 @@
 package com.soodagram.soodagram.user.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -67,6 +69,56 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserVO> getFollowingList(UserVO userVO) throws Exception {
 		return userDAO.getFollowingList(userVO);
+	}
+
+
+	@Override
+	public UserVO getUserInfo(String userEmail) throws Exception {
+		return userDAO.getUserInfo(userEmail);
+	}
+
+
+	@Override
+	public void updateUserInfo(UserVO userVO) throws Exception {
+		userDAO.updateUserInfo(userVO);
+		
+	}
+
+
+	@Override
+	public void follow(Map<String, Object> input) throws Exception {
+		userDAO.follow(input);		
+	}
+
+
+	@Override
+	public void cancelFollow(Map<String, Object> userInput) throws Exception {
+		userDAO.cancelFollow(userInput);
+	}
+
+
+	@Override
+	public Integer checkFollow(Map<String, Object> userInput) throws Exception {
+		return userDAO.checkFollow(userInput);
+	}
+
+
+	@Override
+	public UserVO getUserInfoById(String userId) throws Exception {
+		return userDAO.getUserInfoById(userId);
+	}
+
+
+	@Override
+	public void keepLogin(String userEmail, String sessionId, Date next) throws Exception {
+		userDAO.keepLogin(userEmail, sessionId, next);
+	}
+
+
+	@Override
+	public UserVO checkLoginBefore(String value) throws Exception {
+		
+		return userDAO.checkUserWithSessionKey(value);
 	}
 	
 	

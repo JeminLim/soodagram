@@ -1,5 +1,6 @@
 package com.soodagram.soodagram.commons.interceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -40,8 +41,19 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			logger.info("new login success");
 			//session에 "login" 이름에 userVO를 저장
 			httpSession.setAttribute(LOGIN, userVO);
-			// 유저가 로그인 성공 시 main/feed로 이동
-			response.sendRedirect("/");
+			
+			logger.info("create cookie for login user info");
+			
+			Cookie loginCookie = new Cookie("loginCookie", httpSession.getId());
+			loginCookie.setPath("/");
+			loginCookie.setMaxAge(60*60*24*7);
+			
+			response.addCookie(loginCookie);
+			
+			Object destination = httpSession.getAttribute("destination");
+			response.sendRedirect(destination != null ? (String) destination : "/");
+
+			
 		} else {
 			System.out.println("userVO is null");
 		}
