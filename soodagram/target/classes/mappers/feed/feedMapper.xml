@@ -15,6 +15,7 @@
 		<result property="userEmail" column="user_email" />
 		<result property="totalLike" column="total_like" />
 		<result property="totalReplies" column="total_replies" />
+		<result property="isLike" column="is_like" />
 		<association property="userVO" column="user_email" javaType="UserVO" resultMap="UserResultMap" />
 		<collection property="fileVO" column="feed_no" ofType="FileVO" select="getFeedFile"/>
 	</resultMap>
@@ -78,7 +79,8 @@
 			tu.user_id,
 			tu.user_img,
 			(SELECT COUNT(like_no) FROM tbl_feed_like AS tfl WHERE tfl.feed_no = tf.feed_no) AS total_like,
-			(SELECT COUNT(reply_no) FROM tbl_reply AS tr WHERE tr.feed_no = tf.feed_no) AS total_replies		
+			(SELECT COUNT(reply_no) FROM tbl_reply AS tr WHERE tr.feed_no = tf.feed_no) AS total_replies,
+			(SELECT IF(COUNT(user_email) > 0, 1, 0)	FROM tbl_feed_like WHERE feed_no = tf.feed_no AND user_email = #{userVO.userEmail}) as is_like		
 		FROM tbl_feed as tf
 		INNER JOIN tbl_user_follow as tuf
 		ON tf.user_email = tuf.target_user

@@ -52,7 +52,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			
 			Object destination = httpSession.getAttribute("destination");
 			response.sendRedirect(destination != null ? (String) destination : "/");
-
 			
 		} else {
 			System.out.println("userVO is null");

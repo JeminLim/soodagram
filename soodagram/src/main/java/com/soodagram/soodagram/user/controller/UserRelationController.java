@@ -1,61 +1,64 @@
-package com.soodagram.soodagram.account.controller;
+package com.soodagram.soodagram.user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.soodagram.soodagram.feed.service.FeedService;
 import com.soodagram.soodagram.user.domain.UserVO;
 import com.soodagram.soodagram.user.service.UserService;
 
 @Controller
-@RequestMapping("/main/account")
-public class AccountUserController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(AccountUserController.class);
-	
+@RequestMapping("/relation")
+public class UserRelationController {
+
 	private final UserService userService;
+	private final FeedService feedService;
 	
 	@Inject
-	public AccountUserController (UserService userService) {
+	public UserRelationController(UserService userService, FeedService feedService) {
 		this.userService = userService;
+		this.feedService = feedService;
 	}
-	
-	
-	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public String getProfile(Model model, HttpServletRequest request) throws Exception {
+
+	// 피드 좋아요
+	@RequestMapping(value="/like", method = RequestMethod.POST)
+	@ResponseBody
+	public int likeFeed(HttpServletRequest request, @RequestParam("feedNo") int feedNo) throws Exception {
+		// 현재 로그인 유저 정보		
 		HttpSession httpSession = request.getSession();
-		UserVO loginUser = (UserVO) httpSession.getAttribute("login");
+		UserVO loginUser = (UserVO) httpSession.getAttribute("login");	
+				
+
+		Map<String, Object> input = new HashMap<>();
+		input.put("feedNo", feedNo);
+		input.put("userVO", loginUser);
 		
-		UserVO userVO = userService.getUserInfo(loginUser.getUserEmail());
+		int result = 0;
 		
-		model.addAttribute("loginUser", userVO);
+		if(feedService.duplicateCheck(input) > 0) {
+			feedService.cancelLike(input);
+			result = 0;
+		} else {
+			feedService.insertLike(input);
+			result = 1;
+		}
 		
-		
-		return "/main/profile";
+		return result;		
 	}
-	
-	@RequestMapping(value = "/update", method = {RequestMethod.POST, RequestMethod.GET})
-	public String updateProfile(UserVO userVO, RedirectAttributes redirectAttributes) throws Exception {
-		
-		userService.updateUserInfo(userVO);
-		
-		redirectAttributes.addFlashAttribute("msg", "Registered");
-		
-		return "redirect:/main/account/profile";
-	}
-	
+
+	// 유저 팔로우
 	@RequestMapping(value= "/follow", method = RequestMethod.POST)
 	@ResponseBody
 	public int followUser(String targetEmail, Model model, HttpServletRequest request) throws Exception{
@@ -78,5 +81,6 @@ public class AccountUserController {
 		
 		return result;
 	}
+	
 	
 }

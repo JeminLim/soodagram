@@ -41,18 +41,18 @@ public class SearchController {
 	}
 	
 	@RequestMapping(value = "/hashtag", method = RequestMethod.GET)
-	public String getHashtagFeed(@RequestParam("hashtagName") String hashtagName, Model model, HttpServletRequest request) throws Exception {
+	public String getHashtagFeed(@RequestParam("hashtag") String hashtag, Model model, HttpServletRequest request) throws Exception {
 		
-		hashtagName = URLDecoder.decode(hashtagName, "UTF-8");
+		hashtag = URLDecoder.decode(hashtag, "UTF-8");
 		
-		logger.info(hashtagName + " searched");
+		logger.info(hashtag + " searched");
 		
-		List<FeedVO> searchedFeed = searchService.getHashtagFeed(hashtagName);
+		List<FeedVO> searchedFeed = searchService.getHashtagFeed(hashtag);
 		model.addAttribute("searchedFeed", searchedFeed);
-		model.addAttribute("hashtagName", hashtagName);
+		model.addAttribute("hashtagName", hashtag);
 		
 		
-		return "/main/hashtagSearch";
+		return "/feed/hashtagFeed";
 	}
 	
 	

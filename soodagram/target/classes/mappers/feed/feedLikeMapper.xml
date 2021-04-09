@@ -31,10 +31,17 @@
 	</select>
 	
 	<select id="countLikeNo" parameterType="int" resultType="int">
-		SELECT COUNT(tfl.like_no)
-		FROM tbl_feed_like as tfl
+		SELECT COUNT(like_no)
+		FROM tbl_feed_like
 		WHERE
 			feed_no = #{feedNo}
+	</select>
+	
+	<select id="likeFeedList" resultType="int">
+		SELECT feed_no
+		FROM tbl_feed_like
+		WHERE
+			user_email = #{userEmail}
 	</select>
 	
 </mapper>

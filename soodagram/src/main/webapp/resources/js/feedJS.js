@@ -64,10 +64,10 @@ function getFeeds(curPage) {
 	var feedList = [];
 	
 	$.ajax({
-		url: "/main/getFeed",
+		url: "/feeds/" + curPage,
 		data: {page : curPage},
 		dataType:"json",
-		type: "post",
+		type: "GET",
 		async: false,
 		success: function(result) {
 			if(result.code === "success"){
@@ -96,19 +96,19 @@ function getReplies(feedNo, loadNum) {
 			 loadNum : loadNum};
 	
 	$.ajax({
-		url: "/main/reply/get",
-    			data: data,    					
-    			dataType: "json",
-    			type: "post",
-    			async: false,
-    			success: function(result) {  
-    				 if(result.code === "success") {    					 
-      				      replyList = result.replyList;
-					 }
-				},				
-				error: function(request, status, error) {
-					alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
-				}
+		url: "/reply/" + feedNo,
+		data: data,    					
+		dataType: "json",
+		type: "GET",
+		async: false,
+		success: function(result) {  
+			 if(result.code === "success") {    					 
+			      replyList = result.replyList;
+			 }
+		},				
+		error: function(request, status, error) {
+			alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+		}
 	});
 	
 	return replyList;
@@ -146,5 +146,19 @@ function attachReplies(feedNo, loadNum) {
 		var updatedPage = Number(document.getElementById('replyPage_' + feedNo).getAttribute("value")) + loadNum;
 		document.getElementById('replyPage_' + feedNo).setAttribute("value", updatedPage);
 	}
+	
+}
+
+//좋아요 갯수 수신 및 갯수 갱신
+function updateLikeNo(feedNo) {
+	
+	$.ajax({
+		url: "/feeds/like/" + feedNo,	
+		dataType: "text",
+		type: "GET",
+		success: function(result) {  
+			 $("#totalLike_" + feedNo).html("<small><strong>좋아요 " + result + "개</strong></small>");
+		}
+	});
 	
 }

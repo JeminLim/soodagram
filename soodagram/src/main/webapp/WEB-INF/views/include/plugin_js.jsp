@@ -12,7 +12,7 @@
 <!-- for navigation bar -->
 <script id="resultUserTemplate" type="text/x-handlerbars-template">
 	{{#each searchedUser}}		
-   		<a href="${path}/main/account/user?userId={{userId}}" class="searchUserList col-md-12">	
+   		<a href="${path}/search/user?userId={{userId}}" class="searchUserList col-md-12">	
 			<div class="col-md-3 searchedUserImg">		
 				<img src="{{userImg}}" class="rounded-circle" height="40" loading="lazy" />		   		
 			</div>
@@ -71,7 +71,7 @@
 	                            height="40"
 	                            alt="Avatar"                              
 	                          />
-	                          <a href="${path}/main/account/user?userId={{userVO.userId}}" class="authorUser">
+	                          <a href="${path}/user/{{userVO.userId}}" class="authorUser">
 	                            <strong>{{userVO.userId}}</strong>                                
 	                          </a>
 	                        </div>
@@ -127,8 +127,12 @@
 	                <div class="card-body">
 	                  <div class="container-fluid">
 	                    <div class="row">
-	                      <div class="col-md-11 interaction">	                        
-							<a href="#" style="color: black"><i id="likeBtn_{{feedNo}}" class="far fa-heart fa-lg likeBtn"></i></a>
+	                      <div class="col-md-11 interaction">	        
+							{{#if isLike}}              
+								<a href="#"><i id="likeBtn_{{feedNo}}" class="fas fa-heart fa-lg likeBtn" style="color: red;"></i> </a>
+							{{else}}
+								<a href="#"><i id="likeBtn_{{feedNo}}" class="far fa-heart fa-lg likeBtn" style="color: black;"></i> </a>
+							{{/if}}
 	                        <i class="far fa-comment fa-lg"></i>
 	                        <i class="far fa-paper-plane fa-lg"></i>
 	                      </div>
@@ -141,7 +145,7 @@
 	                    <div class="row mt-1">
 	                      <div class="col-md-12">
 	                        <!-- 좋아요 표시 -->
-	                        <small><strong>좋아요 {{totalLike}}개</strong></small>
+	                        <span id="totalLike_{{feedNo}}"><small><strong>좋아요 {{totalLike}}개</strong></small></span>
 	                      </div>
 	                    </div>
 	                    <!-- Content -->

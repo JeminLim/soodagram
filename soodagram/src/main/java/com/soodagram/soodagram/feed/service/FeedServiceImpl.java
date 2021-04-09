@@ -51,7 +51,7 @@ public class FeedServiceImpl implements FeedService {
 			// #으로 시작하는 요소들만 리스트에 삽입
 			if(word.indexOf("#") == 0) {
 				hashtags.add(word);
-				word = "<a href=" + "#" + ">" + word + "</a>";
+				word = "<a href=" + "/search/hashtag?hashtag=" + word + ">" + word + "</a>";
 			}
 			convertedContent += (word + " ");
 		}
@@ -118,6 +118,12 @@ public class FeedServiceImpl implements FeedService {
 		
 		feedDAO.deleteFeed(feedNo);		
 	}
+
+	@Override
+	public int countLikeNo(int feedNo) throws Exception {
+		return feedLikeDAO.countLikeNo(feedNo);
+	}
+
 
 	
 	

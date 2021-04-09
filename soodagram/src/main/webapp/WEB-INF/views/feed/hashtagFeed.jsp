@@ -30,7 +30,7 @@
             <div class="col-md-7 container-fluid">
               <div class="col-md-12 userInfo">
                 <p class="profile" style="font-size: 2em">${hashtagName}</p>
-                <p class="numFeeds" style="font-size: 1.5em">게시물 <stong>${fn:length(searchedFeed)}</stong></p>                       
+                <p class="numFeeds" style="font-size: 1.5em">게시물 <strong>${fn:length(searchedFeed)}</strong></p>                       
               </div>
             </div>
           </div> 

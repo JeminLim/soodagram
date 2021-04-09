@@ -48,7 +48,7 @@
                                 <img src="${login.userImg}" class="rounded-circle" height="25" loading="lazy" />
                               </a>
                               <ul class="dropdown-menu" aria-labelledby="navDropdownMenu">
-                                <li><a class="dropdown-item" href="${path}/main/account">프로필</a></li>
+                                <li><a class="dropdown-item" href="${path}/user/${login.userId}">프로필</a></li>
                                 <li><a class="dropdown-item" href="#">설정</a></li>
                                 <li><a class="dropdown-item" href="${path}/user/logout">로그아웃</a></li>
                               </ul>

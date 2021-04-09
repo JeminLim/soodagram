@@ -111,54 +111,60 @@
         
     <script src="${path}/resources/js/feedJS.js"></script>
     <script>
-    	$(".followBtn").click(function(event){
-    		var target = event.target;
-    		var targetEmail = target.getAttribute("id").substr(10);
-    		
-    		$.ajax({
-    			url: "/main/account/follow",
-    			data: {targetEmail: targetEmail},
-    			type: "post",
-    			success: function(result) {
-    				if(result === 1) {
-    					document.getElementById('followBtn_' + targetEmail).innerText = "팔로잉";
-    					document.getElementById('followBtn_' + targetEmail).style.color = "black";
-    				} else {
-    					document.getElementById('followBtn_' + targetEmail).innerText = "팔로우";
-    					document.getElementById('followBtn_' + targetEmail).style.color = "blue";
-    				}
-    				
-    			}    			
-    		});
-    	});
-    	
-    	
-    	$(".likeBtn").click(function(event){
-    		var target = event.target;
-    		var targetFeedNo = target.getAttribute("id").substr(8);
-    		
-    		$.ajax({
-    			url: "/main/like",
-    			data: { feedNo : targetFeedNo},
-    			type: "post",
-    			success: function(result) {
-    				if(result === 1) {
-    					// 좋아요 인 상태
-    					var likeIcon = document.getElementById("likeBtn_" + targetFeedNo);
-    					likeIcon.className = "fas fa-heart fa-lg likeBtn";
-    					likeIcon.parentNode.style.color = "red";
-    					
-    				} else {
-    					// 좋아요 취소 상태
-    					var likeIcon = document.getElementById("likeBtn_" + targetFeedNo);
-    					likeIcon.className = "far fa-heart fa-lg likeBtn";
-    					likeIcon.parentNode.style.color = "black";
-    				}
-    			}
-    		});
-    	});
-    	
+
+	    $(".followBtn").click(function(event){	
+	    	event.preventDefault();
+	    	var target = event.target;
+	    	var targetEmail = target.getAttribute("id").substr(10);
+	    	
+	    	$.ajax({
+	    		url: "/relation/follow",
+	    		data: {targetEmail: targetEmail},
+	    		type: "post",
+	    		success: function(result) {
+	    			if(result === 1) {
+	    				document.getElementById('followBtn_' + targetEmail).innerText = "팔로잉";
+	    				document.getElementById('followBtn_' + targetEmail).style.color = "black";
+	    			} else {
+	    				document.getElementById('followBtn_' + targetEmail).innerText = "팔로우";
+	    				document.getElementById('followBtn_' + targetEmail).style.color = "blue";
+	    			}
+	    			
+	    		}    			
+	    	});
+	    });
+	        	
+	        	
+	    $(".likeBtn").click(function(event){
+	    	event.preventDefault();
+	    	var target = event.target;
+	    	var targetFeedNo = target.getAttribute("id").substr(8);
+	    	
+	    	$.ajax({
+	    		url: "/relation/like",
+	    		data: { feedNo : targetFeedNo},
+	    		type: "post",
+	    		success: function(result) {
+	    			if(result === 1) {
+	    				// 좋아요 인 상태
+	    				var likeIcon = document.getElementById("likeBtn_" + targetFeedNo);
+	    				likeIcon.className = "fas fa-heart fa-lg likeBtn";
+	    				likeIcon.style.color = "red";
+	    				
+	    			} else {
+	    				// 좋아요 취소 상태
+	    				var likeIcon = document.getElementById("likeBtn_" + targetFeedNo);
+	    				likeIcon.className = "far fa-heart fa-lg likeBtn";
+	    				likeIcon.style.color = "black";
+	    			}
+	    			
+	    			// 좋아요 개수 업데이트
+	    			updateLikeNo(targetFeedNo);
+	    		}
+	    	});
+	    });
+	    
+	    
     </script>
-    
 </body>
 </html>

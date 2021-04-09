@@ -15,7 +15,7 @@
 	    <div class="main-container displayflex">
 	      <ul class="leftMenu border-grey col-md-3">
 	        <li class="leftMenu-li">
-	          <a class="leftMenu-li-list" href="${path}/main/account/profile" tabindex="0">프로필 편집</a>
+	          <a class="leftMenu-li-list" href="${path}/profile" tabindex="0">프로필 편집</a>
 	        </li>
 	        <li class="leftMenu-li">  
 	          <a class="leftMenu-li-list" href="#" tabindex="0">비밀번호 변경</a>
@@ -45,7 +45,7 @@
 	            <p id="userId">${loginUser.userId}</p>
 	          </div>
 	        </div>
-	        <form action="${path}/main/account/update" role="form" id="userInfoForm">
+	        <form action="${path}/profile" role="form" id="userInfoForm" method="post">
 	          <div class="row displayflex">
 	            <aside class="leftSection col-md-3">
 	              <label>이름</label>
@@ -110,6 +110,7 @@
 	              </select>
 	            </div>
 	          </div>
+	          <input type="hidden" name="_method" value="PATCH" />
 	          <div class="row btnRow">
 	            <button type="submit" class="btn btn-primary" id="updateUserInfo">제출</button>
 	          </div>

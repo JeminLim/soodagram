@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,7 @@ import com.soodagram.soodagram.reply.service.ReplyService;
 import com.soodagram.soodagram.user.domain.UserVO;
 
 @Controller
-@RequestMapping("/main/reply")
+@RequestMapping("/reply")
 public class ReplyController {
 	
 	private final ReplyService replyService;
@@ -32,9 +33,9 @@ public class ReplyController {
 		this.replyService = replyService;
 	}
 	
-	@RequestMapping(value = "/write", method = {RequestMethod.POST})
+	@RequestMapping(value = "/{feedNo}", method = RequestMethod.POST)
 	@ResponseBody
-	public List<ReplyVO> writeReply(ReplyVO replyVO, Model model, HttpServletRequest request) throws Exception{
+	public List<ReplyVO> writeReply(@PathVariable("feedNo") int feedNo, ReplyVO replyVO, Model model, HttpServletRequest request) throws Exception{
 		
 		// 이용자 식별
 		HttpSession httpSession = request.getSession();
@@ -52,9 +53,9 @@ public class ReplyController {
 			
 	}
 	
-	@RequestMapping(value = "/get", method = RequestMethod.POST)
+	@RequestMapping(value = "/{feedNo}", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> getReply(@RequestParam("feedNo") int feedNo, @RequestParam("loadNum")int loadNum, @RequestParam("curPage") int curPage) throws Exception {
+	public Map<String, Object> getReply(@PathVariable("feedNo") int feedNo, @RequestParam("loadNum")int loadNum, @RequestParam("curPage") int curPage) throws Exception {
 		Map<String, Object> getInput = new HashMap<>();
 		getInput.put("feedNo", feedNo);
 		getInput.put("loadNum", loadNum);

@@ -35,30 +35,30 @@
             <!-- Profile abstract -->
             <div class="col-md-7 container-fluid">
               <div class="col-md-12 userInfo">
-                <span class="profile">${targetUser.userId}</span>
-                <div class="col-md-3"> 
+                <div class="col-md-3" style="font-size: 30px;"><span>${targetUser.userId}</span></div>
+                <div class="col-md-4" style="margin-top: 5px;"> 
                	  <c:set var="eqFlag" value="false" /> 				
                	  <c:forEach items="${userFollowingList}" var="userFollowingList">
                	  	<c:if test="${userFollowingList.userEmail eq targetUser.userEmail && not eqFlag}">
                	  		<c:set var="eqFlag" value="true" />
                	  	</c:if>
-                	  </c:forEach>   				                           
-          			  <c:choose>
-              			<c:when test="${eqFlag}">  
-                			<button type="button" id="followBtn_${targetUser.userEmail}" class="followBtnAcc btn btn-default">팔로잉</button>   
-                			<c:set var="eqFlag" value="false" />                       					                        			
-              			</c:when>	
-              			<c:otherwise>
-              				<button type="button" id="followBtn_${targetUser.userEmail}" class="followBtnAcc btn btn-primary">팔로우</button>
-              				<c:set var="eqFlag" value="false" />
-              			</c:otherwise>  	                       			
+               	  </c:forEach>   				                           
+      			  <c:choose>
+          			<c:when test="${eqFlag}">  
+            			<button type="button" id="followBtn_${targetUser.userEmail}" class="followBtnAcc btn btn-default">팔로잉</button>   
+            			<c:set var="eqFlag" value="false" />                       					                        			
+          			</c:when>	
+          			<c:otherwise>
+          				<button type="button" id="followBtn_${targetUser.userEmail}" class="followBtnAcc btn btn-primary">팔로우</button>
+          				<c:set var="eqFlag" value="false" />
+          			</c:otherwise>  	                       			
                	  </c:choose>     	
                 </div>                              
               </div>
               <div class="col-md-12 userInfo">
-                <span class="userLog feedNum">게시물 ${fn:length(targetFeed)}</span>              
-                <button type="button" class="userLog followBtn" id="followBtn">팔로우 ${fn:length(targetFollowingList)} </button>              
-                <button type="button" class="userLog followBtn" id="followerBtn">팔로워 ${fn:length(targetFollowerList)} </button>            
+                <span class="userLog feedNum">게시물 ${fn:length(feedList)}</span>              
+                <button type="button" class="userLog followBtn" id="followBtn">팔로우 ${fn:length(followingList)} </button>              
+                <button type="button" class="userLog followBtn" id="followerBtn">팔로워 ${fn:length(followerList)} </button>            
               </div>
               <div class="col-md-12 userInfo">
                 <span class="profile">${targetUser.userName}</span>
@@ -78,12 +78,12 @@
           </div>
         </div>
         
-        <c:if test="${fn:length(targetFeed) > 0 }">
+        <c:if test="${fn:length(feedList) > 0 }">
        	   <div class="row uploadedFeedRow">
 	       	 <div class="container-fluid">
 	       		<div class="col-md-3"> </div>
 	       		<div class="myFeedList col-md-7"> 			
-        		<c:forEach items="${targetFeed}" var="file" varStatus="myFeedStatus">
+        		<c:forEach items="${feedList}" var="file" varStatus="myFeedStatus">
         			<div class="col-md-3 myFeedImg">
                   		<img class="feedImg" src="/resources/dist/upload/media/${file.fileVO[0].fileName}"/>      
               		</div>              		       	
@@ -108,13 +108,13 @@
             <div class="modal-body">
               <div class="row">
                 <div class="container-fluid text-center modalbodyContainer">
-	          		<c:forEach items="${targetFollowingList}" var="targetFollowingList">	
+	          		<c:forEach items="${followingList}" var="followingList">	
 		              	<div class="container-fluid follower">
 			                 <!-- 유저 프로필 -->
 			                 <div class="col-md-2"></div>
 			                 <div class="col-md-2 text-center">
 			                   <img
-			                       src="${targetFollowingList.userImg}"
+			                       src="${followingList.userImg}"
 			                       class="rounded-circle"
 			                       height="50"
 			                       alt="Avatar"
@@ -123,28 +123,28 @@
 			                 <div class="col-md-3">
 			                   <!-- 유저 아이디 -->
 			                   <div class="col-md-12">
-			                     <span><strong>${targetFollowingList.userId}</strong></span>
+			                     <span><strong>${followingList.userId}</strong></span>
 			                   </div>
 			                   <!-- 유저 이름-->
 			                   <div class="col-md-9">
-			                     <span>${targetFollowingList.userName}</span>
+			                     <span>${followingList.userName}</span>
 			                   </div>
 			                 </div>    
 			                 <!-- 팔로우 버튼 -->
 		                       <div class="col-md-3"> 
 		                      	  <c:set var="eqFlag" value="false" /> 				
 		                      	  <c:forEach items="${userFollowingList}" var="userFollowingList">
-		                      	  	<c:if test="${userFollowingList.userEmail eq targetFollowingList.userEmail && not eqFlag}">
+		                      	  	<c:if test="${userFollowingList.userEmail eq followingList.userEmail && not eqFlag}">
 		                      	  		<c:set var="eqFlag" value="true" />
 		                      	  	</c:if>
 		                       	  </c:forEach>   				                           
 		                 			  <c:choose>
 		                     			<c:when test="${eqFlag}">  
-			                      			<button type="button" id="followBtn_${targetFollowingList.userEmail}" class="followBtnAcc btn btn-default">팔로잉</button>   
+			                      			<button type="button" id="followBtn_${followingList.userEmail}" class="followBtnAcc btn btn-default">팔로잉</button>   
 			                      			<c:set var="eqFlag" value="false" />                       					                        			
 		                     			</c:when>	
 		                     			<c:otherwise>
-		                     				<button type="button" id="followBtn_${targetFollowingList.userEmail}" class="followBtnAcc btn btn-primary">팔로우</button>
+		                     				<button type="button" id="followBtn_${followingList.userEmail}" class="followBtnAcc btn btn-primary">팔로우</button>
 		                     				<c:set var="eqFlag" value="false" />
 		                     			</c:otherwise>  	                       			
 		                      	  </c:choose>     	
@@ -176,13 +176,13 @@
             <div class="modal-body">
               <div class="row">
                 <div class="container-fluid text-center modalbodyContainer">                  
-               		<c:forEach items="${targetFollowerList}" var="targetFollowerList">	
+               		<c:forEach items="${followerList}" var="followerList">	
                     	<div class="container-fluid follower">
                        <!-- 유저 프로필 -->
                        <div class="col-md-2"></div>
                        <div class="col-md-2 text-center">
                          <img
-                             src="${targetFollowerList.userImg}"
+                             src="${followerList.userImg}"
                              class="rounded-circle"
                              height="50"
                              alt="Avatar"
@@ -191,28 +191,28 @@
                        <div class="col-md-3">
                          <!-- 유저 아이디 -->
                          <div class="col-md-12">
-                           <span><strong>${targetFollowerList.userId}</strong></span>
+                           <span><strong>${followerList.userId}</strong></span>
                          </div>
                          <!-- 유저 이름-->
                          <div class="col-md-12">
-                           <span>${targetFollowerList.userName}</span>
+                           <span>${followerList.userName}</span>
                          </div>
                        </div>    
                        <!-- 팔로우 버튼 -->
                        <div class="col-md-3"> 
                       	  <c:set var="eqFlag" value="false" /> 				
                       	  <c:forEach items="${userFollowingList}" var="userFollowingList">
-                      	  	<c:if test="${userFollowingList.userEmail eq targetFollowerList.userEmail && not eqFlag}">
+                      	  	<c:if test="${userFollowingList.userEmail eq followerList.userEmail && not eqFlag}">
                       	  		<c:set var="eqFlag" value="true" />
                       	  	</c:if>
                        	  </c:forEach>   				                           
                  			  <c:choose>
                      			<c:when test="${eqFlag}">  
-	                      			<button type="button" id="followBtn_${targetFollowerList.userEmail}" class="followBtnAcc btn btn-default">팔로잉</button>   
+	                      			<button type="button" id="followBtn_${followerList.userEmail}" class="followBtnAcc btn btn-default">팔로잉</button>   
 	                      			<c:set var="eqFlag" value="false" />                       					                        			
                      			</c:when>	
                      			<c:otherwise>
-                     				<button type="button" id="followBtn_${targetFollowerList.userEmail}" class="followBtnAcc btn btn-primary">팔로우</button>
+                     				<button type="button" id="followBtn_${followerList.userEmail}" class="followBtnAcc btn btn-primary">팔로우</button>
                      				<c:set var="eqFlag" value="false" />
                      			</c:otherwise>  	                       			
                       	  </c:choose>     	
@@ -240,7 +240,7 @@
     		var targetEmail = target.getAttribute("id").substr(10);
     		
     		$.ajax({
-    			url: "/main/account/follow",
+    			url: "/relation/follow",
     			data: {targetEmail: targetEmail},
     			type: "post",
     			success: function(result) {

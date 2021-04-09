@@ -43,7 +43,7 @@ $('html').click(function(event){
 function linkToHashtagFeed(obj) {	
 	
 	var hashtagName = $(obj).children('.hashtagNameVal').val();
-	var url="/search/hashtag?hashtagName=";		
+	var url="/search/hashtag?hashtag=";		
 	const encodedUrl = url + encodeURIComponent(hashtagName);
 	location.href= encodedUrl;
 }

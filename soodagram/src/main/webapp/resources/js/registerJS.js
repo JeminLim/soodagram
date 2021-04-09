@@ -17,8 +17,7 @@ $(document).ready(function(){
 			return;
 		}
 		
-		
-		var url = "/user/duplicateEmail";
+		var url = "/user/regist/check/email";
 		
 		$.ajax({
 			url: url,
@@ -34,7 +33,9 @@ $(document).ready(function(){
 				} else if(result == 0){	
 					checkEmail = true;		
 					btnActivate();
-				}			
+				} else {
+					alert("Error");
+				}		
 			  }
 		});
 	});
@@ -49,7 +50,7 @@ $(document).ready(function(){
 			return;
 		}	
 		
-		var url = "/user/duplicateId";
+		var url = "/user/regist/check/id";
 		
 		$.ajax({
 			url: url,
@@ -65,6 +66,8 @@ $(document).ready(function(){
 				} else if(result == 0){	
 					checkId = true;		
 					btnActivate();
+				} else {
+					alert("Error");
 				}			
 			  }
 		});

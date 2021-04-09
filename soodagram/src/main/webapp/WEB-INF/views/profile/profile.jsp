@@ -37,12 +37,12 @@
             <div class="col-md-7 container-fluid">
               <div class="col-md-12 userInfo">
                 <span class="profile">${login.userId}</span>
-                <span class="profile profileBtn"><a href="${path}/main/account/profile" class="btn btn-default">프로필 편집</a> </span>
+                <span class="profile profileBtn"><a href="${path}/profile" class="btn btn-default">프로필 편집</a> </span>
                 <span class="profile profileIcon"><button type="button" class="btn-link profile text-dark"><i class="fas fa-cog fa-lg"></i></button></span>
                 <span class="profile profileIcon"><button type="button" class="btn-link profile text-dark" id="postBtn"><i class="fas fa-edit fa-lg"></i></button></span>              
               </div>
               <div class="col-md-12 userInfo">
-                <span class="userLog feedNum">게시물 ${fn:length(myFeed)}</span>              
+                <span class="userLog feedNum">게시물 ${fn:length(feedList)}</span>              
                 <button type="button" class="userLog followBtn" id="followBtn">팔로우 ${fn:length(followingList)} </button>              
                 <button type="button" class="userLog followBtn" id="followerBtn">팔로워 ${fn:length(followerList)} </button>            
               </div>
@@ -64,12 +64,12 @@
           </div>
         </div>
         
-        <c:if test="${fn:length(myFeed) > 0 }">
+        <c:if test="${fn:length(feedList) > 0 }">
        	   <div class="row uploadedFeedRow">
 	       	 <div class="container-fluid">
 	       		<div class="col-md-3"> </div>
 	       		<div class="myFeedList col-md-7"> 			
-        		<c:forEach items="${myFeed}" var="file" varStatus="myFeedStatus">
+        		<c:forEach items="${feedList}" var="file" varStatus="feedListStatus">
         			<div class="col-md-3 myFeedImg">
                   		<img class="feedImg" src="/resources/dist/upload/media/${file.fileVO[0].fileName}"/>  
                   		<div class="btnRow">			
@@ -96,8 +96,8 @@
               </div>
             </div>
             <div class="modal-body">
-              <form role="form" action="${path}/main/account/upload" id="writeForm" method="post" enctype="multipart/form-data">
-                <p><mdall>사진 업로드</mdall></p>
+              <form role="form" action="${path}/feed/post" id="writeForm" method="post" enctype="multipart/form-data">
+                <p><small>사진 업로드</small></p>
                 <!-- 첨부파일 영역 -->
                 <div class="form-group border fileDiv">                             
                 </div> 
@@ -333,92 +333,6 @@
    </main>
     
     <%@ include file="../include/plugin_js.jsp" %> 
-    <script type="text/javascript" src="${path}/resources/js/accountJS.js"> </script>
-    <script> 
-    
-	    // 버튼 클릭시 삭제
-	   $(document).on("click", ".delBtn", function(e) {
-	    	e.preventDefault();
-	    	var that = $(this);
-	    	deleteFileWrtPage(that);	
-	   });
-	    
-	    // submit 버튼 작동시
-	    $(document).ready(function() {
-		   $("#writeForm").submit(function (e) {
-			   e.preventDefault();
-			   var that = $(this);
-			   filesSubmit(that);
-		   });
-	    });	   
-
-		 // 프로필 이미지 클릭
-		 $(document).ready(function() {
-		 	$("#profileImg").click(function(e) {
-		 		e.preventDefault();	
-		 		$("#profileImgUpload").click();
-		 	});
-		 });
-		 
-
-		// 프로필 등록시 ajax 통신
-		 $(document).ready(function() {
-		 	$("#profileImgUpload").on("change", function(e) {
-		 		e.preventDefault();
-		 		var imgSrc = $("#profileImgUpload")[0].files[0];	
-		 		var formData = new FormData();
-		 		formData.append("file", imgSrc);
-		 		$.ajax({
-		 			url: "/main/account/uploadUserImg",
-		 			data: formData,
-		 			dataType: "text",
-		 			processData: false,
-		 			contentType: false,
-		 			type: "POST",
-		 			success: function(result) {				
-		 				$("#profileImg").attr("src", "/resources/dist/upload/media/" + result);
-		 			}
-		 		});
-		 	});		
-		 });
-		
-		 $(".followBtnAcc").click(function(event){
-	    		var target = event.target;
-	    		var targetEmail = target.getAttribute("id").substr(10);
-	    		
-	    		$.ajax({
-	    			url: "/main/account/follow",
-	    			data: {targetEmail: targetEmail},
-	    			type: "post",
-	    			success: function(result) {
-	    				if(result === 1) {
-	    					document.getElementById('followBtn_' + targetEmail).innerText = "팔로잉";
-	    					document.getElementById('followBtn_' + targetEmail).className = "followBtnAcc btn btn-default";
-	    				} else {
-	    					document.getElementById('followBtn_' + targetEmail).innerText = "팔로우";
-	    					document.getElementById('followBtn_' + targetEmail).className = "followBtnAcc btn btn-primary";
-	    				}
-	    				
-	    			}    			
-	    		});
-	    	});
-	    
-		 $(".feedDelBtn").click(function(event) {
-			 var target = event.target;
-			 var feedNo = target.getAttribute("id").substr(7);
-			 			 
-			 $.ajax({
-				 url: "/main/account/deleteFeed",
-				 data: {feedNo : feedNo},
-				 type: "post",
-				 success: function(result) {
-					 location.reload();
-				 }				 
-			 });
-			 
-		 });
-		 
-		
-    </script> 
+    <script type="text/javascript" src="${path}/resources/js/profileJS.js"> </script>
 </body>
 </html>

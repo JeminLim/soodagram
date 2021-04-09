@@ -22,9 +22,20 @@ public class FeedVO {
 	
 	//좋아요 개수
 	private int totalLike;
+	private boolean isLike;
+	
 	
 	//댓글 개수
 	private int totalReplies;
+	
+	
+
+	public boolean getIsLike() {
+		return isLike;
+	}
+	public void setIsLike(boolean isLike) {
+		this.isLike = isLike;
+	}
 	
 	public int getTotalReplies() {
 		return totalReplies;
@@ -96,7 +107,7 @@ public class FeedVO {
 	@Override
 	public String toString() {
 		return "FeedVO [feedNo=" + feedNo + ", content=" + content + ", regDate=" + regDate + ", updateDate="
-				+ updateDate + "]";
+				+ updateDate + ", isLike=" + isLike + "]";
 	}
 	
 	

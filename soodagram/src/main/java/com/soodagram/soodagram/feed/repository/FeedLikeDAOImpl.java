@@ -33,6 +33,11 @@ public class FeedLikeDAOImpl implements FeedLikeDAO {
 	public int duplicateCheck(Map<String, Object> likeInput) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".isCancel", likeInput);
 	}
+
+	@Override
+	public int countLikeNo(int feedNo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".countLikeNo", feedNo);
+	}
 	
 	
 

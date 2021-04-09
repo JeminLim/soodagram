@@ -1,5 +1,7 @@
 package com.soodagram.soodagram.feed.controller;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,92 +10,114 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.soodagram.soodagram.commons.util.UploadFileUtils;
 import com.soodagram.soodagram.feed.domain.FeedVO;
 import com.soodagram.soodagram.feed.service.FeedService;
 import com.soodagram.soodagram.user.domain.UserVO;
-import com.soodagram.soodagram.user.service.UserService;
 
 @Controller
-@RequestMapping("/main")
+@RequestMapping("/feed")
 public class FeedController {
 
+	private static final Logger logger = LoggerFactory.getLogger(FeedController.class);
+	
 	private final FeedService feedService;
-	private final UserService userService;
 	
 	@Inject
-	public FeedController(FeedService feedService, UserService userService) {
+	public FeedController(FeedService feedService) {
 		this.feedService = feedService;
-		this.userService = userService;
-	}
+	}	
 	
-	@RequestMapping(value = "/feed", method = RequestMethod.GET)
-	public String feedGET(Model model, HttpServletRequest request) throws Exception {
-		// 현재 로그인 유저 정보		
+	// 피드 등록
+	@RequestMapping(value="/post", method = RequestMethod.POST)
+	public String uploadFeed(FeedVO feedVO, HttpServletRequest request) throws Exception {
+		//작성자 정보 등록
 		HttpSession httpSession = request.getSession();
-		UserVO loginUser = (UserVO) httpSession.getAttribute("login");	
+		UserVO loginUser = (UserVO) httpSession.getAttribute("login");
 		
-		// 다른 유저 추천 리스트
-		List<UserVO> recommendList = userService.getRecommendUserList(loginUser);
-		model.addAttribute("recommendList", recommendList);
+		feedVO.setUserEmail(loginUser.getUserEmail());
+		feedVO.setUserVO(loginUser);
 		
-		// 팔로잉 리스트
-		List<UserVO> followingList = userService.getFollowingList(loginUser);
-		model.addAttribute("followingList", followingList);
+		// 피드 컨텐츠 등록
+		feedService.wrtieFeed(feedVO);
 		
-		return "/main/feed";
+		return "redirect:/profile/profile";
 	}
 	
-	@RequestMapping(value="/getFeed", method = RequestMethod.POST)
+	// 피드 사진 업로드
+	@RequestMapping(value="/post/file", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> getFeed(Model model, HttpServletRequest request, @RequestParam("page") int page) throws Exception {
-		// 현재 로그인 유저 정보		
-		HttpSession httpSession = request.getSession();
-		UserVO loginUser = (UserVO) httpSession.getAttribute("login");	
-		// 팔로잉 유저 피드
-		Map<String, Object> input = new HashMap<String, Object>();
-		input.put("page", page);
-		input.put("userVO", loginUser);
-		
-		List<FeedVO> followingFeed = feedService.getFollowingFeed(input);	
-	
-		
-		Map<String, Object> result = new HashMap<>();
-		result.put("followingFeed", followingFeed);
-		result.put("code", "success");
-		return result;
-	}
-	
-	@RequestMapping(value="/like", method = RequestMethod.POST)
-	@ResponseBody
-	public int likeFeed(HttpServletRequest request, @RequestParam("feedNo") int feedNo) throws Exception {
-		// 현재 로그인 유저 정보		
-		HttpSession httpSession = request.getSession();
-		UserVO loginUser = (UserVO) httpSession.getAttribute("login");	
-				
-
-		Map<String, Object> input = new HashMap<>();
-		input.put("feedNo", feedNo);
-		input.put("userVO", loginUser);
-		
-		int result = 0;
-		
-		if(feedService.duplicateCheck(input) > 0) {
-			feedService.cancelLike(input);
-			result = 0;
-		} else {
-			feedService.insertLike(input);
-			result = 1;
+	public ResponseEntity<String> uploadFile(MultipartFile file, HttpServletRequest request) throws Exception {
+		ResponseEntity<String> entity = null;
+		try {
+			String savedFilePath = UploadFileUtils.uploadFile(file,  request);
+			entity = new ResponseEntity<>(savedFilePath, HttpStatus.CREATED);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		return result;		
+		return entity;
 	}
+	
+	// 피드 업로드 사진 취소(삭제)
+	@RequestMapping(value="/post/file", method = RequestMethod.DELETE)
+	@ResponseBody 
+	public ResponseEntity<String> deleteFile(String fileName, HttpServletRequest request) throws Exception {
+		ResponseEntity<String> entity = null;		
+		try {
+			String rootPath = UploadFileUtils.getRootPath(request);
+			UploadFileUtils.deleteFile(fileName, rootPath);
+			entity = new ResponseEntity<>("DELETED", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;		
+	}
+	
+	// 피드 이미지 미리보기
+	@RequestMapping(value="/thumbnail", method = RequestMethod.GET)
+	@ResponseBody 
+	public ResponseEntity<byte[]> display(@RequestParam("fileName") String fileName, HttpServletRequest request) throws Exception {		
+		HttpHeaders httpHeaders = UploadFileUtils.getHttpHeaders(fileName);
+		String rootPath = UploadFileUtils.getRootPath(request);
+		ResponseEntity<byte[]> entity = null;
+		
+		try (InputStream inputstream = new FileInputStream(rootPath + fileName)) {
+			entity = new ResponseEntity<>(IOUtils.toByteArray(inputstream), httpHeaders, HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;		
+	}	
+
+	// 업로드 된 피드 삭제
+	@RequestMapping(value="/{feedNo}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public void deleteFeed(@PathVariable("feedNo") int feedNo, HttpServletRequest request) throws Exception {		
+		String rootPath = UploadFileUtils.getRootPath(request);		
+		feedService.deleteFeed(feedNo, rootPath);		
+		logger.info("feed - " + feedNo + "deleted");		
+	}	
+	
+	
 }
