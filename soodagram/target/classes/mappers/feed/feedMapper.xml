@@ -44,8 +44,7 @@
 	
 	<!-- ######################################## Feed SQL ############################################### -->
 	<!-- Feed 등록 -->
-	<insert id="writeFeed" parameterType="FeedVO">
-		
+	<insert id="writeFeed" parameterType="FeedVO">		
 		INSERT INTO tbl_feed (
 			content,
 			user_email
@@ -56,8 +55,7 @@
 		<!-- 다른 테이블 참조하기 위해, auto_increment 값을 Insert 한 후, 반환하여 사용할 수 있도록 selectkey 사용 -->
 		<selectKey resultType="int" keyProperty="feedNo" order="AFTER">
 			SELECT LAST_INSERT_ID()
-		</selectKey>
-		
+		</selectKey>		
 	</insert>
 
 	<!-- 본인 피드 정보 받기 -->

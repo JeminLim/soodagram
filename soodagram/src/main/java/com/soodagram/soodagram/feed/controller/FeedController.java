@@ -69,7 +69,7 @@ public class FeedController {
 		// 피드 컨텐츠 등록
 		feedService.wrtieFeed(feedVO);
 		
-		return "redirect:/profile/profile";
+		return "redirect:/user/" + loginUser.getUserId();
 	}
 	
 	/**
@@ -150,7 +150,7 @@ public class FeedController {
 	 */
 	@RequestMapping(value="/{feedNo}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public void deleteFeed(@PathVariable("feedNo") int feedNo, HttpServletRequest request) throws Exception {		
+	public void deleteFeed(@PathVariable("feedNo") int feedNo, HttpServletRequest request) throws Exception {	
 		String rootPath = UploadFileUtils.getRootPath(request);		
 		feedService.deleteFeed(feedNo, rootPath);		
 		logger.info("feed - " + feedNo + "deleted");		

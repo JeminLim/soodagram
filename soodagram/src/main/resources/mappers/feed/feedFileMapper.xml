@@ -5,6 +5,12 @@
         
 <mapper namespace = "com.soodagram.soodagram.mappers.feed.FeedFileMapper">
 	
+	<resultMap id="FileResultMap" type="FileVO">
+		<id property="fileName" column="file_name" />
+		<result property="feedNo" column="feed_no" />
+		<result property="regDate" column="reg_date" />
+	</resultMap>
+	
 	<insert id="uploadFile">
 		INSERT INTO tbl_feed_img (
 			file_name,
@@ -16,10 +22,13 @@
 		
 	</insert>
 	
-	<select id="getFileList">
-		SELECT file_name
-		FROM tbl_feed_img
-		WHERE
+	<select id="getFileList" resultMap="FileResultMap">
+		SELECT 
+			file_name,
+			feed_no,
+			reg_date
+		FROM tbl_feed_img 
+		WHERE 
 			feed_no = #{feedNo}
 	</select>
 	

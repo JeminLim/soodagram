@@ -27,7 +27,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		HttpSession httpSession = request.getSession();
 		Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
-
+		
 		if(loginCookie != null) {
 			UserVO userVO = userService.checkLoginBefore(loginCookie.getValue());
 			if(userVO != null) {

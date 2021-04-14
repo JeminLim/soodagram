@@ -6,5 +6,5 @@ import com.soodagram.soodagram.feed.domain.FeedFileVO;
 
 public interface FeedFileDAO {
 	void uploadFile(FeedFileVO feedFileVO) throws Exception;
-	List<String> getFileNames(int feedNo) throws Exception;
+	List<FeedFileVO> getFileNames(int feedNo) throws Exception;
 }

@@ -1,7 +1,6 @@
 package com.soodagram.soodagram.feed.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.soodagram.soodagram.commons.util.UploadFileUtils;
 import com.soodagram.soodagram.feed.domain.FeedFileVO;
+import com.soodagram.soodagram.feed.domain.FeedHashtagVO;
 import com.soodagram.soodagram.feed.domain.FeedVO;
 import com.soodagram.soodagram.feed.repository.FeedDAO;
 import com.soodagram.soodagram.feed.repository.FeedFileDAO;
@@ -44,6 +44,7 @@ public class FeedServiceImpl implements FeedService {
 	/**
 	 * 피드 작성 함수
 	 */
+	@Transactional
 	@Override
 	public void wrtieFeed(FeedVO feedVO) throws Exception {	
 		
@@ -70,8 +71,11 @@ public class FeedServiceImpl implements FeedService {
 		feedDAO.writeFeed(feedVO);
 		
 		//해시태그 등록
-		for(String hashtagNmae: hashtags) {
-			feedHashtagDAO.writeHashtag(hashtagNmae);
+		for(String hashtagName: hashtags) {
+			FeedHashtagVO hashtagInput = new FeedHashtagVO();
+			hashtagInput.setFeedNo(feedVO.getFeedNo());
+			hashtagInput.setHashtagName(hashtagName);
+			feedHashtagDAO.writeHashtag(hashtagInput);
 		}
 		
 		//피드 첨부파일 등록
@@ -137,12 +141,11 @@ public class FeedServiceImpl implements FeedService {
 	@Override
 	public void deleteFeed(int feedNo, String rootPath) throws Exception {
 		
-		List<String> fileNames = feedFileDAO.getFileNames(feedNo);
+		List<FeedFileVO> fileNames = feedFileDAO.getFileNames(feedNo);
 		
-		for(int i = 0; i < fileNames.size(); i++) {
-			UploadFileUtils.deleteFile(fileNames.get(i), rootPath);
-		}
-		
+		for(FeedFileVO file : fileNames) {
+			UploadFileUtils.deleteFile(file.getFileName(), rootPath);
+		}	
 		
 		feedDAO.deleteFeed(feedNo);		
 	}

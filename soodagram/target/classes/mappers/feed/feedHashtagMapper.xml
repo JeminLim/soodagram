@@ -11,10 +11,8 @@
 			feed_no
 		) VALUES (
 			#{hashtagName},
-			LAST_INSERT_ID()			
+			#{feedNo}			
 		)
-		
-		
 	</insert>
 
 </mapper>

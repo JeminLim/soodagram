@@ -27,8 +27,8 @@ public class FeedFileDAOImpl implements FeedFileDAO {
 	}
 
 	@Override
-	public List<String> getFileNames(int feedNo) throws Exception {
-		return sqlSession.selectList(NAMESPACE + "getFileList", feedNo);
+	public List<FeedFileVO> getFileNames(int feedNo) throws Exception {		
+		return sqlSession.selectList(NAMESPACE + ".getFileList", feedNo);
 	}
 
 }
