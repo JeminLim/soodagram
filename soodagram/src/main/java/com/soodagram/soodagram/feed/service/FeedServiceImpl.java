@@ -19,6 +19,12 @@ import com.soodagram.soodagram.feed.repository.FeedHashtagDAO;
 import com.soodagram.soodagram.feed.repository.FeedLikeDAO;
 import com.soodagram.soodagram.user.domain.UserVO;
 
+/**
+ * 피드 관련 서비스 구현체
+ * 피드 작성, 열람, 소셜 기능 구현
+ * @author jeminLim
+ * @version 1.0
+ */
 @Service
 public class FeedServiceImpl implements FeedService {
 
@@ -35,9 +41,12 @@ public class FeedServiceImpl implements FeedService {
 		this.feedLikeDAO = feedLikeDAO;
 	}
 	
-	@Transactional
+	/**
+	 * 피드 작성 함수
+	 */
 	@Override
-	public void wrtieFeed(FeedVO feedVO) throws Exception {		
+	public void wrtieFeed(FeedVO feedVO) throws Exception {	
+		
 		// 단어 분리
 		String[] splitedContent = feedVO.getContent().split(" ");
 		// 해시태그 추출
@@ -56,6 +65,7 @@ public class FeedServiceImpl implements FeedService {
 			convertedContent += (word + " ");
 		}
 		
+		// 컨텐츠 등록
 		feedVO.setContent(convertedContent);
 		feedDAO.writeFeed(feedVO);
 		
@@ -64,9 +74,9 @@ public class FeedServiceImpl implements FeedService {
 			feedHashtagDAO.writeHashtag(hashtagNmae);
 		}
 		
-		
+		//피드 첨부파일 등록
 		String[] files = feedVO.getFiles();
-		// 파일 첨부가 없을 때
+		
 		if (files == null) {
 			return;
 		}
@@ -80,32 +90,50 @@ public class FeedServiceImpl implements FeedService {
 		
 	}
 
+	/**
+	 * 로그인 사용자 작성 피드 리스트 
+	 */
 	@Override
 	public List<FeedVO> getMyFeed(UserVO userVO) throws Exception {
 		return feedDAO.getMyFeed(userVO);
 	}
 
+	/**
+	 * 팔로잉 유저 작성 피드 리스트
+	 */
 	@Override
 	public List<FeedVO> getFollowingFeed(Map<String, Object> input) throws Exception {
 		return feedDAO.getFollowingFeed(input);
 	}
 
+	/**
+	 * 피드 좋아요 표시
+	 */
 	@Override
 	public void insertLike(Map<String, Object> likeInput) throws Exception {
 		feedLikeDAO.insertLike(likeInput);		
 	}
 
+	/**
+	 * 피드 좋아요 취소
+	 */
 	@Override
 	public void cancelLike(Map<String, Object> likeInput) throws Exception {
 		feedLikeDAO.cancelLike(likeInput);
 		
 	}
 
+	/**
+	 * 피드 좋아요 여부 확인
+	 */
 	@Override
 	public int duplicateCheck(Map<String, Object> likeInput) throws Exception {
 		return feedLikeDAO.duplicateCheck(likeInput);
 	}
 
+	/**
+	 * 작성 피드 삭제
+	 */
 	@Override
 	public void deleteFeed(int feedNo, String rootPath) throws Exception {
 		
@@ -119,6 +147,9 @@ public class FeedServiceImpl implements FeedService {
 		feedDAO.deleteFeed(feedNo);		
 	}
 
+	/**
+	 * 좋아요 갯수 확인
+	 */
 	@Override
 	public int countLikeNo(int feedNo) throws Exception {
 		return feedLikeDAO.countLikeNo(feedNo);

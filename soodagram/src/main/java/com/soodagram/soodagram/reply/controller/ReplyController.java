@@ -22,6 +22,12 @@ import com.soodagram.soodagram.reply.domain.ReplyVO;
 import com.soodagram.soodagram.reply.service.ReplyService;
 import com.soodagram.soodagram.user.domain.UserVO;
 
+/**
+ * 댓글 관련 컨트롤러
+ * 댓글 등록 및 열람
+ * @author jeminLim
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/reply")
 public class ReplyController {
@@ -33,9 +39,17 @@ public class ReplyController {
 		this.replyService = replyService;
 	}
 	
+	/**
+	 * 해당 피드에 뎃글 등록
+	 * @param feedNo
+	 * @param replyVO
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/{feedNo}", method = RequestMethod.POST)
 	@ResponseBody
-	public List<ReplyVO> writeReply(@PathVariable("feedNo") int feedNo, ReplyVO replyVO, Model model, HttpServletRequest request) throws Exception{
+	public List<ReplyVO> writeReply(@PathVariable("feedNo") int feedNo, ReplyVO replyVO, HttpServletRequest request) throws Exception{
 		
 		// 이용자 식별
 		HttpSession httpSession = request.getSession();
@@ -53,6 +67,14 @@ public class ReplyController {
 			
 	}
 	
+	/**
+	 * 해당 피드 댓글 열람
+	 * @param feedNo
+	 * @param loadNum
+	 * @param curPage
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/{feedNo}", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getReply(@PathVariable("feedNo") int feedNo, @RequestParam("loadNum")int loadNum, @RequestParam("curPage") int curPage) throws Exception {

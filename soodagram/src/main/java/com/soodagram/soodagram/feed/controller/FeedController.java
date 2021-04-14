@@ -30,6 +30,13 @@ import com.soodagram.soodagram.feed.domain.FeedVO;
 import com.soodagram.soodagram.feed.service.FeedService;
 import com.soodagram.soodagram.user.domain.UserVO;
 
+/**
+ * 피드 컨트롤러
+ * 피드 작성 관련 컨트롤러
+ * @author jeminLim
+ * @version 1.0
+ */
+
 @Controller
 @RequestMapping("/feed")
 public class FeedController {
@@ -43,10 +50,16 @@ public class FeedController {
 		this.feedService = feedService;
 	}	
 	
-	// 피드 등록
+	/**
+	 * 피드 등록
+	 * @param feedVO
+	 * @param request
+	 * @return redirect profile page
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/post", method = RequestMethod.POST)
 	public String uploadFeed(FeedVO feedVO, HttpServletRequest request) throws Exception {
-		//작성자 정보 등록
+		// 작성자(로그인) 유저 정보
 		HttpSession httpSession = request.getSession();
 		UserVO loginUser = (UserVO) httpSession.getAttribute("login");
 		
@@ -59,7 +72,13 @@ public class FeedController {
 		return "redirect:/profile/profile";
 	}
 	
-	// 피드 사진 업로드
+	/**
+	 * 피드 사진 업로드
+	 * @param file
+	 * @param request
+	 * @return response entity
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/post/file", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> uploadFile(MultipartFile file, HttpServletRequest request) throws Exception {
@@ -75,7 +94,13 @@ public class FeedController {
 		return entity;
 	}
 	
-	// 피드 업로드 사진 취소(삭제)
+	/**
+	 * 피드 사진 삭제
+	 * @param fileName
+	 * @param request
+	 * @return response entity
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/post/file", method = RequestMethod.DELETE)
 	@ResponseBody 
 	public ResponseEntity<String> deleteFile(String fileName, HttpServletRequest request) throws Exception {
@@ -92,10 +117,17 @@ public class FeedController {
 		return entity;		
 	}
 	
-	// 피드 이미지 미리보기
+	/**
+	 * 썸네일 사진
+	 * @param fileName
+	 * @param request
+	 * @return responseEntity
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/thumbnail", method = RequestMethod.GET)
 	@ResponseBody 
-	public ResponseEntity<byte[]> display(@RequestParam("fileName") String fileName, HttpServletRequest request) throws Exception {		
+	public ResponseEntity<byte[]> display(@RequestParam("fileName") String fileName, HttpServletRequest request) throws Exception {	
+		
 		HttpHeaders httpHeaders = UploadFileUtils.getHttpHeaders(fileName);
 		String rootPath = UploadFileUtils.getRootPath(request);
 		ResponseEntity<byte[]> entity = null;
@@ -110,7 +142,12 @@ public class FeedController {
 		return entity;		
 	}	
 
-	// 업로드 된 피드 삭제
+	/**
+	 * 피드 전체 삭제
+	 * @param feedNo
+	 * @param request
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/{feedNo}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void deleteFeed(@PathVariable("feedNo") int feedNo, HttpServletRequest request) throws Exception {		

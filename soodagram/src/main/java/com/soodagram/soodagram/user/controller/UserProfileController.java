@@ -20,6 +20,12 @@ import com.soodagram.soodagram.commons.util.UploadFileUtils;
 import com.soodagram.soodagram.user.domain.UserVO;
 import com.soodagram.soodagram.user.service.UserService;
 
+/**
+ * 유저 프로필 관련 컨트롤러
+ * 프로필 열람, 수정 관련
+ * @author jeminLim
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/profile")
 public class UserProfileController {
@@ -33,7 +39,13 @@ public class UserProfileController {
 		this.userService = userService;
 	}
 
-	// 유저 프로필 변경 페이지
+	/**
+	 * 프로필 변경 페이지 호출
+	 * @param model
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String getProfile(Model model, HttpServletRequest request) throws Exception {
 		HttpSession httpSession = request.getSession();
@@ -47,7 +59,13 @@ public class UserProfileController {
 		return "/profile/profileUpdate";
 	}
 	
-	// 유저 프로필 수정 요청
+	/**
+	 * 프로필 수정 요청 처리
+	 * @param userVO
+	 * @param redirectAttributes
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "", method = RequestMethod.PATCH)
 	public String updateProfile(UserVO userVO, RedirectAttributes redirectAttributes) throws Exception {
 		
@@ -58,7 +76,13 @@ public class UserProfileController {
 		return "redirect:/profile/profileUpdate";
 	}
 
-	//유저 프로필 사진 업로드
+	/**
+	 * 프로필 사진 업데이트
+	 * @param file
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/img", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public @ResponseBody ResponseEntity<String> uploadUserImg(MultipartFile file, HttpServletRequest request) throws Exception {
 		

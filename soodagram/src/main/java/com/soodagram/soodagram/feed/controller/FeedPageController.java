@@ -22,6 +22,11 @@ import com.soodagram.soodagram.feed.service.FeedService;
 import com.soodagram.soodagram.user.domain.UserVO;
 import com.soodagram.soodagram.user.service.UserService;
 
+/**
+ * 피드 열람 페이지 컨트롤러
+ * @author jeminLim
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/")
 public class FeedPageController {
@@ -37,7 +42,13 @@ public class FeedPageController {
 		this.userService = userService;
 	}	
 	
-	// 피드페이지 GET
+	/**
+	 * 피드 열람 페이지 유저 관련 정보(추천 유저, 팔로잉 유저) 데이터 수신
+	 * @param model
+	 * @param request
+	 * @return feed page
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String feedPageGET(Model model, HttpServletRequest request) throws Exception {
 		// 현재 로그인 유저 정보		
@@ -55,7 +66,14 @@ public class FeedPageController {
 		return "/feed/feed";
 	}
 	
-	// 팔로잉 유저 피드 수신	
+	/**
+	 * 팔로잉 유저의 피드 열람
+	 * @param model
+	 * @param request
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/feeds/{page}", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getFeed(Model model, HttpServletRequest request, @PathVariable("page") int page) throws Exception {
@@ -76,6 +94,12 @@ public class FeedPageController {
 		return result;
 	}
 	
+	/**
+	 * 해당 피드 좋아요 갯수
+	 * @param feedNo
+	 * @return number of feed like
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/feeds/like/{feedNo}", method = RequestMethod.GET)
 	@ResponseBody
 	public int getCountFeedLike(@PathVariable("feedNo") int feedNo) throws Exception {			

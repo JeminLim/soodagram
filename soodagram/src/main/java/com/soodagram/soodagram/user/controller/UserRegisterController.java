@@ -13,6 +13,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.soodagram.soodagram.user.domain.UserVO;
 import com.soodagram.soodagram.user.service.UserService;
 
+/**
+ * 회원가입 페이지 컨트롤러
+ * 회원가입, 제약조건 확인 관련
+ * @author jeminLim
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/user/regist")
 public class UserRegisterController {
@@ -24,13 +30,24 @@ public class UserRegisterController {
 		this.userService = userService;
 	}
 	
-	//회원가입 페이지 로딩
+	/**
+	 * 회원가입 페이지 열람
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String registerGET() throws Exception {
 		return "/user/register";
 	}
 	
-	//회원가입 처리
+	/**
+	 * 회원가입 처리
+	 * @param userVO
+	 * @param model
+	 * @param redirectAttributes
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public String registerPOST(UserVO userVO, Model model, RedirectAttributes redirectAttributes) throws Exception {
 		
@@ -45,7 +62,11 @@ public class UserRegisterController {
 		return "redirect:/user/login";
 	}	
 		
-	//이메일 중복 체크
+	/**
+	 * 이메일 중복 체크 함수
+	 * @param userEmail
+	 * @return number of duplicate email
+	 */
 	@RequestMapping(value="/check/email", method=RequestMethod.POST)
 	@ResponseBody 
 	public int duplicateEmail(String userEmail){		
@@ -58,7 +79,11 @@ public class UserRegisterController {
 		}		
 	}
 	
-	//아이디 중복 체크
+	/**
+	 * 아이디 중복체크 함수
+	 * @param userId
+	 * @return number of duplicate id
+	 */
 	@RequestMapping(value="/check/id", method=RequestMethod.POST)
 	@ResponseBody 
 	public int duplicateId(String userId){		

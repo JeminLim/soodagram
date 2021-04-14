@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.soodagram.soodagram.feed.domain.FeedVO;
 import com.soodagram.soodagram.search.service.SearchService;
 
+/**
+ * 검색 관련 컨트롤러
+ * @author jeminLim
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/search")
 public class SearchController {
@@ -32,6 +37,12 @@ public class SearchController {
 		this.searchService = searchService;
 	}
 	
+	/**
+	 * 주어진 키워드로 유저 또는 해시태그 검색
+	 * @param keyword
+	 * @return search result
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> search(@RequestParam("keyword") String keyword) throws Exception {
@@ -40,8 +51,15 @@ public class SearchController {
 		
 	}
 	
+	/**
+	 * 해시태그에 관련 있는 피드 열람
+	 * @param hashtag
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/hashtag", method = RequestMethod.GET)
-	public String getHashtagFeed(@RequestParam("hashtag") String hashtag, Model model, HttpServletRequest request) throws Exception {
+	public String getHashtagFeed(@RequestParam("hashtag") String hashtag, Model model) throws Exception {
 		
 		hashtag = URLDecoder.decode(hashtag, "UTF-8");
 		

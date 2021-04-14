@@ -20,6 +20,12 @@ import com.soodagram.soodagram.feed.service.FeedService;
 import com.soodagram.soodagram.user.domain.UserVO;
 import com.soodagram.soodagram.user.service.UserService;
 
+/**
+ * 유저 개인 페이지 컨트롤러
+ * 타겟 유저의 정보 및 피드 열람
+ * @author jeminLim
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("/user")
 public class UserBrowseController {
@@ -35,7 +41,14 @@ public class UserBrowseController {
 		this.userService = userService;
 	}
 		
-	// 유저 피드 열람
+	/**
+	 * 타겟 유저 피드 열람
+	 * @param userId
+	 * @param model
+	 * @param request
+	 * @return 
+	 * @throws Exception
+	 */
 	@RequestMapping(value= "/{userId}", method = RequestMethod.GET)
 	public String accountGET(@PathVariable("userId") String userId, Model model, HttpServletRequest request) throws Exception {		
 		
@@ -52,15 +65,14 @@ public class UserBrowseController {
 		model.addAttribute("followerList", userService.getFollowerList(target));
 		model.addAttribute("followingList", userService.getFollowingList(target));
 		
-		
+		// 타겟 == 로그인 사용자 경우, 본인 프로필 계정으로 이동
 		if(loginUser.getUserId().equals(userId)) {
-			//추천 목록
 			List<UserVO> recommendList = userService.getRecommendUserList(target);
 			model.addAttribute("recommendList", recommendList);
 			return "/profile/profile";
 		} 
 		
-		//유저 팔로잉 리스트
+		// 타인 계정 탐방
 		model.addAttribute("targetUser", target);
 		model.addAttribute("userFollowingList", userService.getFollowingList(loginUser));
 		return "/feed/userFeed";
