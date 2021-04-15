@@ -18,7 +18,7 @@
 	          <a class="leftMenu-li-list" href="${path}/profile" tabindex="0">프로필 편집</a>
 	        </li>
 	        <li class="leftMenu-li">  
-	          <a class="leftMenu-li-list" href="#" tabindex="0">비밀번호 변경</a>
+	          <a class="leftMenu-li-list disabled" href="#" tabindex="0">비밀번호 변경</a>
 	        </li>
 	        <li class="leftMenu-li">
 	          <a class="leftMenu-li-list disabled" href="#" tabindex="0">앱 및 웹사이트</a>

@@ -43,7 +43,7 @@
 			<div class="col-sm-12">
 				<div class="text-center">					
 					<span class="go-to-register">계정이 없으신가요?
-					<a href="${path}/user/register" class="register">가입하기</a>
+					<a href="${path}/user/regist" class="register">가입하기</a>
 					</span>
 				</div>
 			</div>

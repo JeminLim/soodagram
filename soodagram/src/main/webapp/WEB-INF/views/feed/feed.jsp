@@ -37,8 +37,8 @@
             </ul>              
           </section>
          
-  			<!-- Feed Section -->
-	    	<div id="feedSection" class="col-md-12"></div> 		  
+		<!-- Feed Section -->
+    	  <div id="feedSection" class="col-md-12"></div> 		  
 		
         </div>  
         

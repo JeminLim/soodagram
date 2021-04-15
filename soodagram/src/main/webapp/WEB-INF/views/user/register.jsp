@@ -22,7 +22,7 @@
 								<span class="fb-login">Facebook으로 로그인</span>
 							</button>										
 							<p class="or"> 또는 </p>
-							<form action="${path}/user/register" method="post">
+							<form action="${path}/user/regist" method="post">
 								<div class="form-group">
 									<input type="email" id="userEmail" class="form-control" placeholder="이메일" name="userEmail">
 								</div>
