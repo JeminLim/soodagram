@@ -48,6 +48,11 @@ MVC 패턴을 적용하여, 각 기능별로 commons/feed/reply/search/user 로 
 Mapper 또한 각 기능에 따라 분리하여 작성    
 
 ## 3. Backend architecture
+### 3-0 사용 기술    
+      * Spring Framework
+      * Mybatis & MariaDB
+      * Apache tomcat 9.0
+      * JDK 11.0
 ### 3-1 DB 스키마
 ### 3-2 Endpoints
 
