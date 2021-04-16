@@ -64,6 +64,7 @@ Mapper 또한 각 기능에 따라 분리하여 작성
       * Apache tomcat 9.0
       * JDK 11.0
 ### 3-1 DB 스키마
+<img width="60%" src="https://user-images.githubusercontent.com/65437310/115020085-04d24f80-9ef5-11eb-8d46-e72b2adaf38f.png"/>    
 
 ### 3-2 Endpoints
 
