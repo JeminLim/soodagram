@@ -48,7 +48,7 @@ Soodagram
 * 검색 관련
   - 유저 검색
   - 해시태그 검색    
-<img width="50%" src="https://user-images.githubusercontent.com/65437310/114970860-37108c80-9eb6-11eb-8619-eb319d71200d.gif">
+<img width="40%" src="https://user-images.githubusercontent.com/65437310/114970860-37108c80-9eb6-11eb-8619-eb319d71200d.gif">
 
 ## 2. 폴더 구조
 
@@ -56,15 +56,16 @@ MVC 패턴을 적용하여, 각 기능별로 commons/feed/reply/search/user 로 
 공통 유틸을 제외한 각 기능별 패키지에는 controller - service - repository - domain 으로 분할    
 Mapper 또한 각 기능에 따라 분리하여 작성    
 
-## 3. Backend architecture
-### 3-0 사용 기술    
+## 3. Architecture
+### 3-0 사용 기술   
+    - Backend Architecture
       * Spring Framework
       * Mybatis & MariaDB
       * Apache tomcat 9.0
       * JDK 11.0
 ### 3-1 DB 스키마
+
 ### 3-2 Endpoints
-![회원가입로그인](https://user-images.githubusercontent.com/65437310/114969721-f0ba2e00-9eb3-11eb-94c7-10ea61da4078.gif)
 
 ## 4. 느낀점 및 향후 계획
 해당 프로젝트와 연관성이 떨어진다 생각하여 블로그(링크)에 기술
