@@ -107,6 +107,160 @@
       </div> 
     </main>
     
+    
+	<!-- for feed.jsp -->
+	<script id="feedTemplate" type="text/x-handlerbars-template">
+	  {{#each feedList}}
+		<section class="newsFeed">
+	            <div class="post">
+	              <div class="card">
+	                <div class="card-body">
+	                  <div class="container-fluid">
+	                    <!-- Author -->
+	                    <div class="row authorRow">
+	                      <div class="col-md-11">
+	                        <div class="author">
+	                          <img
+	                            src="{{userVO.userImg}}"
+	                            class="rounded-circle authorUser"
+	                            height="40"
+	                            alt="Avatar"                              
+	                          />
+	                          <a href="${path}/user/{{userVO.userId}}" class="authorUser">
+	                            <strong>{{userVO.userId}}</strong>                                
+	                          </a>
+	                        </div>
+	                      </div>
+	                      <div class="col-md-1 authorMenu">                         
+	                        <i class="fas fa-ellipsis-h fa-lf"></i>
+	                      </div>
+	                    </div>                      
+	                  </div>
+	                </div>      
+           
+	                 <div id="feedCarousel{{feedNo}}" class="carousel slide" data-ride="carousel" data-interval="false">	                 		                     
+		                     <!-- indicators -->
+		                     <ol class="carousel-indicators">	                 
+								{{#each fileVO}} 
+									{{#if @first}}
+										<li data-target="#feedCarousel{{../feedNo}}" data-slide-to="{{@index}}" class="active"></li>
+									{{else}}
+										<li data-target="#feedCarousel{{@../feedNo}}" data-slide-to="{{@index}}"></li>
+									{{/if}}
+								{{/each}}
+		                     </ol>
+		                     
+		                     <!-- Wrapper for slides -->
+		                     <div class="carousel-inner">
+							 {{#each fileVO}}
+		                        {{#if @first}}
+		                       		<div class="item active" >
+					                   <img class="feedImg" src="/resources/dist/upload/media/{{fileName}}">
+					                </div>
+								{{else}}
+									<div class="item">
+					                   <img class="feedImg" src="/resources/dist/upload/media/{{fileName}}">
+					                 </div>	  
+								{{/if}}
+		                     {{/each}}                    
+		                     </div>
+	                     
+	                     <!-- left and right controls -->
+	                     <a class="left carousel-control" href="#feedCarousel{{feedNo}}" role="button" data-slide="prev">
+	                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	                        <span class="sr-only">Previous</span>
+	                     </a>
+	                     <a class="right carousel-control" href="#feedCarousel{{feedNo}}" role="button" data-slide="next">
+	                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	                      <span class="sr-only">Next</span>
+	                   </a>
+	                 </div>
+	                 
+	                 
+	
+	                <!-- interaction -->
+	                <div class="card-body">
+	                  <div class="container-fluid">
+	                    <div class="row">
+	                      <div class="col-md-11 interaction">	        
+							{{#if isLike}}              
+								<a href="#"><i id="likeBtn_{{feedNo}}" class="fas fa-heart fa-lg likeBtn" style="color: red;"></i> </a>
+							{{else}}
+								<a href="#"><i id="likeBtn_{{feedNo}}" class="far fa-heart fa-lg likeBtn" style="color: black;"></i> </a>
+							{{/if}}
+	                        <i class="far fa-comment fa-lg"></i>
+	                        <i class="far fa-paper-plane fa-lg"></i>
+	                      </div>
+	                      <div class="col-md-1 interaction">
+	                        <i class="far fa-bookmark fa-lg"></i>
+	                      </div>
+	                    </div>
+	
+	                    <!-- Content-->
+	                    <div class="row mt-1">
+	                      <div class="col-md-12">
+	                        <!-- 좋아요 표시 -->
+	                        <span id="totalLike_{{feedNo}}"><small><strong>좋아요 {{totalLike}}개</strong></small></span>
+	                      </div>
+	                    </div>
+	                    <!-- Content -->
+	                    <div class="row">
+	                      <div class="col-md-12">
+	                        <p>
+	                          <strong class="text-dark">{{userVO.userId}}</strong>
+	                          {{{content}}} 
+	                        </p>
+	                      </div>
+	                    </div>
+	
+	                    <!-- Reply-->
+	                    <div class="row">
+	                      <div class="col-md-12">                        
+	                        <span>댓글 {{totalReplies}}개</span>
+	                        <a href="#" class="unfoldReply" id="moreReply_{{feedNo}}">더 보기</a>
+	                      </div>
+	                      <div class="col-md-12">
+							  <ul id="replies{{feedNo}}">
+	
+							  </ul>           
+	                        <input type="hidden" name="replyPage_{{feedNo}}" id="replyPage_{{feedNo}}" value="0" />
+	                      </div>           
+						  <div id="col-md-12 replyArea"></div>           
+	                    </div>
+	                      
+	                    <!-- Comments form -->
+	                    <div class="row commentForm">
+						  <div class="col-md-12">
+						  	<form name="insertReply">
+	                     	 	<div class="col-md-10">
+								   <div class="form-outline">
+	                	          	  <input type="text" class="form-control" placeholder="댓글 달기" name="content" id="content_{{feedNo}}"/>
+									  <input type="hidden" value="{{feedNo}}" name="feedNo" id="feedNo{{feedNo}}" />							  
+	               	            	</div>
+	               		      	</div>
+	                  	 	    <div class="col-md-2 replyPost">
+	                     		   <button type="submit" id="reply_{{feedNo}}" class="btn btn-primary replySubmit">게시</button>
+	                    		</div>
+						    </form>
+						  </div>
+	                    </div>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          </section>
+		{{/each}}
+	</script>	
+
+	<script id="replyTemplate" type="text/x-handlerbars-template">
+		{{#each replyList}}
+			<li>
+				<p class="reply"><strong>{{userId}}</strong>{{content}}</p>
+			</li>
+		{{/each}}
+	</script>
+    
+    
     <%@ include file="../include/plugin_js.jsp" %>
         
     <script src="${path}/resources/js/feedJS.js"></script>

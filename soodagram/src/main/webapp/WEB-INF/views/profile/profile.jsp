@@ -332,6 +332,16 @@
       </div>
    </main>
     
+    <!-- for preview image -->
+	<script id="imgTemplate" type="text/x-handlerbars-template">
+		<li class="imgList" style="list-style:none; margin: 5px;">
+			<span class="mailbox-attachment-icon uploadImage">
+				<img src="{{imgSrc}}" class="fileImg" alt="Attachment" height="150", width="150">		
+			</span>
+			<a href="{{fullName}}" class="btn btn-danger delBtn" id="delBtn" name="delBtn">삭제</a>
+		</li>
+	</script>
+    
     <%@ include file="../include/plugin_js.jsp" %> 
     <script type="text/javascript" src="${path}/resources/js/profileJS.js"> </script>
 </body>
