@@ -63,14 +63,14 @@ function search(searchBar) {
 				
 				$('#searchResult').empty();
 				
-				if(result.resultUser.length > 0) {						
+				if(result.resultUser !== undefined && result.resultUser.length > 0) {						
 					var uBindingData = { searchedUser : result.resultUser };
 					var uHtml = searchUserTemplate(uBindingData);
 					$('#searchResult').append(uHtml);
 					$('#searchResult').show();
 				}
 				
-				if(result.resultHashtag.length > 0) {
+				if(result.resultHashtag !== undefined && result.resultHashtag.length > 0) {
 					var hBindingData = { searchedTag : result.resultHashtag };
 					var hHtml = searchHashtagTemplate(hBindingData);
 					$('#searchResult').append(hHtml);

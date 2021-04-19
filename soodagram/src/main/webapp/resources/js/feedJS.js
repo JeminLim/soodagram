@@ -33,9 +33,9 @@ $('.replySubmit').click(function(e) {
 	var replyList = [];
 	
 	$.ajax({
-		url: "/main/reply/write",
+		url: "/reply/" + feedNo,
 		data : form,
-		type: "post",
+		type: "POST",
 		dataType: "json",
 		success : function(result) {	
 			replyList = result;

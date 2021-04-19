@@ -73,7 +73,7 @@ public class UserProfileController {
 		
 		redirectAttributes.addFlashAttribute("msg", "Updated");
 		
-		return "redirect:/profile/profileUpdate";
+		return "redirect:/profile";
 	}
 
 	/**

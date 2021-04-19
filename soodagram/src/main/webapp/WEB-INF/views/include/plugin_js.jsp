@@ -12,7 +12,7 @@
 <!-- for navigation bar -->
 <script id="resultUserTemplate" type="text/x-handlerbars-template">
 	{{#each searchedUser}}		
-   		<a href="${path}/search/user?userId={{userId}}" class="searchUserList col-md-12">	
+   		<a href="${path}/user/{{userId}}" class="searchUserList col-md-12">	
 			<div class="col-md-3 searchedUserImg">		
 				<img src="{{userImg}}" class="rounded-circle" height="40" loading="lazy" />		   		
 			</div>
