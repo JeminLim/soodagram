@@ -76,7 +76,7 @@ public class FeedController {
 	 * @return response entity
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/post/file", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="/post/img", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<String> uploadFile(MultipartFile file, HttpServletRequest request) throws Exception {
 		ResponseEntity<String> entity = null;
@@ -92,13 +92,13 @@ public class FeedController {
 	}
 	
 	/**
-	 * 피드 사진 삭제
+	 * 피드 작성중인 사진 삭제
 	 * @param fileName
 	 * @param request
 	 * @return response entity
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/post/file", method = RequestMethod.DELETE)
+	@RequestMapping(value="/post/img", method = RequestMethod.DELETE)
 	@ResponseBody 
 	public ResponseEntity<String> deleteFile(@RequestBody String fileName, HttpServletRequest request) throws Exception {
 		ResponseEntity<String> entity = null;		

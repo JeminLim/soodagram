@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +43,7 @@ public class SearchController {
 	 * @return search result
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> search(@RequestParam("keyword") String keyword) throws Exception {
 		
@@ -58,8 +58,8 @@ public class SearchController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/hashtag", method = RequestMethod.GET)
-	public String getHashtagFeed(@RequestParam("hashtag") String hashtag, Model model) throws Exception {
+	@RequestMapping(value = "/{hashtag}", method = RequestMethod.GET)
+	public String getHashtagFeed(@PathVariable("hashtag") String hashtag, Model model) throws Exception {
 		
 		hashtag = URLDecoder.decode(hashtag, "UTF-8");
 		

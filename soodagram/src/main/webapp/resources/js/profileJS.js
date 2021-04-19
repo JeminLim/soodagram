@@ -140,7 +140,7 @@ $(document).ready(function() {
 // 파일 업로드 Ajax 통신
 function uploadFile(formData) {
 	$.ajax({
-		url: "/feed/post/file",
+		url: "/feed/post/img",
 		data: formData,		
 		dataType: "text",
 		//processData: 데이터를 일반적인 query string으로 변환 처리 여부
@@ -180,7 +180,7 @@ function filesSubmit(that) {
 
 // 파일 삭제(입력페이지) : 첨부파일만 삭제처리
 function deleteFileWrtPage(that) {
-	var url = "/feed/post/file";
+	var url = "/feed/post/img";
 	deleteFile(url, that);	
 }
 

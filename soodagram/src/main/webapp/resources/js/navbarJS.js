@@ -43,7 +43,7 @@ $('html').click(function(event){
 function linkToHashtagFeed(obj) {	
 	
 	var hashtagName = $(obj).children('.hashtagNameVal').val();
-	var url="/search/hashtag?hashtag=";		
+	var url="/search/";		
 	const encodedUrl = url + encodeURIComponent(hashtagName);
 	location.href= encodedUrl;
 }
@@ -57,7 +57,7 @@ function search(searchBar) {
 		$.ajax({
 			url: "/search",
 			data : { keyword : inputValue },
-			type : "get",
+			type : "post",
 			dataType: "json",
 			success: function(result) {
 				
