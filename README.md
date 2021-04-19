@@ -1,17 +1,17 @@
 <details>
   <summary> 목차 </summary> 
 	
-  1. 프로젝트 소개 
-    1.1 [프로젝트 기능](#1.1-프로젝트-기능)    
-    1.2 [개발 환경](#1.2-개발-환경)
-    1.3 [프로젝트 구조](#1.3-프로젝트-구조)
-  2. [Fronend architecture](#2.-Frontend-architecture)
+  1. 프로젝트 소개     
+    1.1 [프로젝트 기능](#11-프로젝트-기능)       
+    1.2 [개발 환경](#12-개발-환경)   
+    1.3 [프로젝트 구조](#13-프로젝트-구조)
+  2. [Fronend architecture](#2-Frontend-architecture)
   3. Backend architecture   
-    3.1 [DB 스키마](#3.1-DB-스키마)     
-    3.2 [Backend 구조](#3.2-Backend-구조)     
-    3.3 [Endpoints](#3.3-Endpoints)    
-    3.4 [스프링 설정](#3.4-스프링-설정)    
-  4. [느낀점 및 향후 계획](#4.-느낀점-및-향후-계획)
+    3.1 [DB 스키마](#31-DB-스키마)     
+    3.2 [Backend 구조](#32-Backend-구조)     
+    3.3 [Endpoints](#33-Endpoints)    
+    3.4 [스프링 설정](#34-스프링-설정)    
+  4. [느낀점 및 향후 계획](#4-느낀점-및-향후-계획)
   
 </details>
  
