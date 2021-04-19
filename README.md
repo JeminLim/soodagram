@@ -6,8 +6,9 @@
     1.3 프로젝트 구조
   2. Fronend architecture
   3. Backend architecture   
-    3.1 DB 스키마   
-    3.2 Endpoints       
+    3.1 DB 스키마 
+    3.2 Backend 구조  
+    3.3 Endpoints    
   4. 느낀점 및 향후 계획
  </details>
  
@@ -379,7 +380,15 @@ function updateLikeNo(feedNo) {
 DB설계에 아직 미숙하지만, 각 테이블 레코드의 중복성 방지 및 무결성을 해치지 않기 위해 정규화를 진행하여 테이블을 총 7가지로 나누고,
 외래키에는 cascade delete 제약을 설정하여, 종속된 테이블의 레코드도 같이 삭제 될 수 있도록 했습니다. 
 
-### 3.2 Endpoints
+### 3.2 Backend 구조
+<img src="https://user-images.githubusercontent.com/65437310/115237385-790c2d80-a157-11eb-98a8-c6ef1cbd8c80.png" />
+interceptor 폴더에는 로그인 및 권한 확인을 위한 interceptor 와 미디어 파일 관리를 위한 유틸 파일을 작성했습니다.
+MVC 구조를 위해 분리한 컨트롤러는 각 기능별 패키지를 controller - service - repository - domain 으로 분리하여 역할에 따른 레이어를 나누었습니다.    
+<img src="https://user-images.githubusercontent.com/65437310/115238569-cb018300-a158-11eb-8935-ac64fc4b9df6.png" />
+Mybatis를 이용하여 mapper를 구성하여 DAO 클래스를 통해 주입된 sqlSession을 통해 DB에 접근하여 sql문을 실행하는데, 이 또한 각 기능별로 mapper를 구분하여
+유지 보수를 쉽게 할 수 있도록 구성하였습니다. 코드의 생산성을 높이기 위한 typealias를 mybatis-config.xml을 통해 설정을 명시하여 지정해주었습니다. 
+
+### 3.3 Endpoints
 ```java
 @RequestMapping(value="/feed/post", method = RequestMethod.POST) 		// 피드 업로드 
 @RequestMapping(value="/feed/post/img", method = RequestMethod.POST) 		// 피드 사진 업로드 
@@ -416,5 +425,4 @@ DB설계에 아직 미숙하지만, 각 테이블 레코드의 중복성 방지 
 @RequestMapping(value="/relation/follow", method = RequestMethod.POST)		// 소셜 관련 유저 팔로우 요청
 ```
 빈 줄을 기준으로, 각 controller의 구성된 URL 매핑 정보 입니다. REST API 명명 규칙과 적절한 HTTP method를 사용하고자 노력했습니다.
-
 
