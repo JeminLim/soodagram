@@ -375,4 +375,46 @@ function updateLikeNo(feedNo) {
 
 ## 3. Backend architecture
 ### 3.1 DB 스키마
-<img src="https://user-images.githubusercontent.com/65437310/115210097-3cc9d480-a139-11eb-9099-fe23b93357ee.png" />
+<img width="70%" src="https://user-images.githubusercontent.com/65437310/115210097-3cc9d480-a139-11eb-9099-fe23b93357ee.png" />
+DB설계에 아직 미숙하지만, 각 테이블 레코드의 중복성 방지 및 무결성을 해치지 않기 위해 정규화를 진행하여 테이블을 총 7가지로 나누고,
+외래키에는 cascade delete 제약을 설정하여, 종속된 테이블의 레코드도 같이 삭제 될 수 있도록 했습니다. 
+
+### 3.2 Endpoints
+```java
+@RequestMapping(value="/feed/post", method = RequestMethod.POST) 		// 피드 업로드 
+@RequestMapping(value="/feed/post/img", method = RequestMethod.POST) 		// 피드 사진 업로드 
+@RequestMapping(value="/feed/post/img", method = RequestMethod.DELETE) 		// 피드 업로드 사진 삭제
+@RequestMapping(value="/feed/thumbnail", method = RequestMethod.GET)		// 피드 미리보기 사진 
+@RequestMapping(value="/feed/{feedNo}", method = RequestMethod.DELETE) 		// 업로드 되었던 피드 삭제
+
+@RequestMapping(value="/", method = RequestMethod.GET) 				// 피드 열람 페이지(메인페이지) 요청
+@RequestMapping(value="/feeds/{page}", method = RequestMethod.GET) 		// 피드 데이터 요청
+@RequestMapping(value="/feed/like/{feedNo}", method = RequestMethod.GET) 	// 해당 피드 좋아요 개수
+
+@RequestMapping(value="/reply/{feedNo}", method = RequestMethod.GET)		// 댓글 열람
+@RequestMapping(value="/reply/{feedNo}", method = RequestMethod.POST)		// 댓글 작성
+
+@RequestMapping(value="/search", method = RequestMethod.POST)			// 검색
+@RequestMapping(value="/search/{hashtag}", method = RequestMethod.GET)		// 검색된 해시태그 페이지 요청
+
+@RequestMapping(value="/user/{userId}", method = RequestMethod.GET)		// 해당 유저 피드 페이지 요청
+
+@RequestMapping(value="/user/login", method = RequestMethod.GET)		// 로그인 페이지 요청
+@RequestMapping(value="/user/login", method = RequestMethod.POST)		// 로그인 요청
+@RequestMapping(value="/user/logout", method = RequestMethod.GET)		// 로그아웃 요청
+
+@RequestMapping(value="/profile", method = RequestMethod.GET)			// 프로필 페이지 요청
+@RequestMapping(value="/profile", method = RequestMethod.PATCH)			// 프로필 수정 요청
+@RequestMapping(value="/profile/img", method = RequestMethod.POST)		// 프로필 이미지 업로드 요청
+
+@RequestMapping(value="/user/regist", method = RequestMethod.GET)		// 회원가입 페이지 요청
+@RequestMapping(value="/user/regist", method = RequestMethod.POST)		// 회원가입 요청
+@RequestMapping(value="/user/regist/check/email", method = RequestMethod.POST)	// 이메일 중복 검사 요청
+@RequestMapping(value="/user/regist/check/id", method = RequestMethod.POST)	// 아이디 중복 검사 요청
+
+@RequestMapping(value="/relation/like", method = RequestMethod.POST)		// 소셜 관련 좋아요 요청
+@RequestMapping(value="/relation/follow", method = RequestMethod.POST)		// 소셜 관련 유저 팔로우 요청
+```
+빈 줄을 기준으로, 각 controller의 구성된 URL 매핑 정보 입니다. REST API 명명 규칙과 적절한 HTTP method를 사용하고자 노력했습니다.
+
+
