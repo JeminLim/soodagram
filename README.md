@@ -43,7 +43,7 @@ Database: MariaDB
 ## 2. Frontend architecture
 <img src="https://user-images.githubusercontent.com/65437310/115201367-397e1b00-a130-11eb-8616-82297e28eb7a.png" />
 View를 구성하는 jsp 페이지를 기능별로 묶어 유사한 기능을 하는 페이지들로 구성하였으며, resources 폴더에는 css, js, static img를 구성하여 참조 가능하도록 분리하였습니다.
-
+부트스트랩을 이용하여 레이아웃을 구성하였으며, View의 페이지들의 구성은 ajax 통신을 하여 데이터를 받아오면, 동적으로 추가하는 방법 이외에는 기본적인 Form 데이터 전송에 대한 결과 또는 a 태그를 활용한 페이지 이동을 활용하였습니다. 
 
 ```html:feed.jsp
   <main>
@@ -373,3 +373,6 @@ function updateLikeNo(feedNo) {
 ```
 피드 수신을 위한 자바스크립트 파일 입니다. feedTemplate 이라는 변수를 통해 자바스크립트 파일이 로딩이 될 때 컴파일을 합니다. 이후 feed를 ajax통신을 통해 피드 정보를 수신하고 사용자에게 출력게 됩니다. 처음 페이지 로딩 이외, 사용자의 요청을 받아들이는 방법으로는 IntersectionObserver를 통해 사용자의 휠 스크롤 위치를 감시하고 일정 영역까지 내려오면 attachFeeds() 함수를 호출하여 피드를 받아와 출력합니다. 만약 불러올 피드가 더 이상 없으면 IntersectionObserver의 감시를 해제합니다.
 
+## 3. Backend architecture
+### 3.1 DB 스키마
+<img src="https://user-images.githubusercontent.com/65437310/115210097-3cc9d480-a139-11eb-9099-fe23b93357ee.png" />
