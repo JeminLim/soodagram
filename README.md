@@ -1,16 +1,19 @@
 <details>
-  <summary> 목차 </summary>  
+  <summary> 목차 </summary> 
+	
   1. 프로젝트 소개   
     1.1 프로젝트 기능    
     1.2 개발 환경
     1.3 프로젝트 구조
   2. Fronend architecture
   3. Backend architecture   
-    3.1 DB 스키마 
-    3.2 Backend 구조  
+    3.1 DB 스키마     
+    3.2 Backend 구조     
     3.3 Endpoints    
+    3.4 스프링 설정    
   4. 느낀점 및 향후 계획
- </details>
+  
+</details>
  
 # Soodagram(Instagram clone)
 ## 1. 프로젝트 소개
@@ -426,3 +429,196 @@ Mybatis를 이용하여 mapper를 구성하여 DAO 클래스를 통해 주입된
 ```
 빈 줄을 기준으로, 각 controller의 구성된 URL 매핑 정보 입니다. REST API 명명 규칙과 적절한 HTTP method를 사용하고자 노력했습니다.
 
+### 3.4 스프링 설정
+#### web.xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<!--  encoding filter -->
+	<filter>
+	  <filter-name>encodingFilter</filter-name>
+	  <filter-class>
+	    org.springframework.web.filter.CharacterEncodingFilter
+	  </filter-class>
+	  <init-param>
+	    <param-name>encoding</param-name>
+	    <param-value>UTF-8</param-value>
+	  </init-param>
+	  <init-param>
+	    <param-name>forceEncoding</param-name>
+	    <param-value>true</param-value>
+	  </init-param>
+	</filter>
+	<filter-mapping>
+	  <filter-name>encodingFilter</filter-name>
+	  <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- HiddenHttpMethodFilter -->
+	<filter>
+	 <filter-name>hiddenHttpMethodFilter</filter-name>
+	 <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>hiddenHttpMethodFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>	
+</web-app>
+```
+스프링 환경설정 파일 로딩을 위한 root-context.xml을 등록 및 servlet 환경 설정을 위한 servlet-context.xml 파일을 등록, 그리고 각종 필터를 설정해주었습니다.
+사용한 필터로는 한글 인코딩을 자동으로 하기 위한 encoding filter 와 form 태그에서 지원하지 않는 Patch를 보내기 위해 HiddenHttpMethodFilter를 설정해주었습니다.
+
+#### root-context.xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+		
+	<!--DataSource 설정-->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		 <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		 <property name="url" value="jdbc:log4jdbc:mariadb://localhost:3306/soodagram" />
+		 <property name="username" value="soodaAdmin" />
+		 <property name="password" value="1111" />
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		 <property name="dataSource" ref="dataSource" />
+		 <property name="configLocation" value="classpath:/mybatis-config.xml" />
+		 <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml" />
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		 <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>	
+	
+	<context:component-scan base-package="com.soodagram.soodagram" />
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+		
+	<tx:annotation-driven/>
+	
+</beans>
+```
+root-context.xml 파일에서는 DB관련 설정을 해주었습니다. 사용 DB는 MariaDB를 사용했으며, DB 사용을 위한 driver manager 와 transaction 관리를 위한 transaction manager 를 설정해주었습니다.
+또한 Mybatis 사용을 위한 sqlSession bean 설정을 해주었으며, mybatis 설정과 관련된 xml 파일 경로 지정 및 각종 맵퍼들의 경로들을 지정해주었습니다. 
+
+#### servlet-context.xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<context:component-scan base-package="com.soodagram.soodagram" />
+	
+	<aop:aspectj-autoproxy/>
+	
+	<!-- login interceptor bean 객체 생성 -->
+	<beans:bean id="loginInterceptor" class="com.soodagram.soodagram.commons.interceptor.LoginInterceptor" />
+	
+	<!-- login interceptor 맵핑 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/login"/>
+			<beans:ref bean="loginInterceptor" />
+		</interceptor>
+	</interceptors>
+	
+	<!-- Auth interceptor bean 객체 생성 -->
+	<beans:bean id="authInterceptor" class="com.soodagram.soodagram.commons.interceptor.AuthInterceptor"/>
+	
+	<!-- auth interceptor 맵핑 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/*"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	<!-- 로그인 회원 존재 시, 로그인 및 회원가입 화면 이동 방지 -->
+	<beans:bean id="loginAfterInterceptor" class="com.soodagram.soodagram.commons.interceptor.LoginAfterInterceptor"/>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/login"/>
+			<mapping path="/user/register"/>
+			<beans:ref bean="loginAfterInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	
+	<!-- 파일 업로드 MultipartResolver 설정 -->
+	<beans:bean id="multipartResolver" class = "org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760" />
+	</beans:bean>
+
+</beans:beans>
+
+```
+DispatcherServlet을 설정하는 파일로써, 각종 annotation을 사용할 수 있도록 설정하며, 각종 리소스에 대한 위치를 지정해주었습니다.
+코드의 생산성을 높이기 위해, jsp 파일에 대한 경로에 접두, 접미어 설정을 해주었습니다. 또한 interceptor 사용을 위한 설정을 했습니다. 
+로그인 여부를 확인하기 위한 loginInterceptor, 로그인 이후 다시 로그인 페이지 및 회원가입 페이지 이동을 방지하기 위한 loginAfterInterceptor에 대한 설정이 있습니다.
+또한 모든 페이지에 대한 접근에 미로그인 사용자의 서비스 이용을 제한하여 위해 미권한 사용자를 로그인 페이지로 이동시킬 수 있는 authInterceptor에 대한 설정이 있습니다. 
