@@ -6,13 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=devide-width, initial-scale=1">
-<title>soodagram</title>
-<link href="${path}/resources/css/style.css" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-
+	<link rel="stylesheet" href="${path}/resources/css/login_style.css"/>
+	<%@include file="../include/head.jsp" %>
 </head>
 <body>
 	<div class="container">
@@ -21,7 +16,7 @@
 				<div class="text-center">
 					<img src="${path}/resources/static/soodagram-font-logo.png" class="instagram-logo">
 					<div class="login-form">
-						<form action="${path}/user/loginPost" method="post">
+						<form action="${path}/user/login" method="post">
 							<div class="form-group">
 								<input type="text" name="userEmail" class="form-control" placeholder="이메일">
 							</div>
@@ -48,7 +43,7 @@
 			<div class="col-sm-12">
 				<div class="text-center">					
 					<span class="go-to-register">계정이 없으신가요?
-					<a href="${path}/user/register" class="register">가입하기</a>
+					<a href="${path}/user/regist" class="register">가입하기</a>
 					</span>
 				</div>
 			</div>

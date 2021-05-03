@@ -1,9 +1,19 @@
 package com.soodagram.soodagram.feed.domain;
 
 public class FeedHashtagVO {
+	
 	private Integer hashtagNo;
 	private String hashtagName;
 	private Integer feedNo;
+	private Integer tagCount;
+	
+	public Integer getTagCount() {
+		return tagCount;
+	}
+	public void setTagCount(Integer tagCount) {
+		this.tagCount = tagCount;
+	}
+	
 	
 	public Integer getHashtagNo() {
 		return hashtagNo;
