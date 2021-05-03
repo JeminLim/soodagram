@@ -9,12 +9,12 @@ var feedTemplate = Handlebars.compile($('#feedTemplate').html());
 var replyTemplate = Handlebars.compile($('#replyTemplate').html());
 
 const io = new IntersectionObserver(entries => {
-	if(entries.some(entry => entry.intersectionRatio >0)) {
+	if(entries.some(entry => entry.intersectionRatio > 0)) {
 		// 피드 받아와서 출력하기
 		attachFeeds();
 	}
 })
-
+io.observe(document.getElementById('feedSection'));
 attachFeeds(); // 초기 피드 로드
 
 $('.replySubmit').click(function(e) {
@@ -54,7 +54,7 @@ $('.unfoldReply').click(function(e) {
 	
 	var target = e.target;
 	var feedNo = Number(target.getAttribute("id").substr(10));
-	attachReplies(feedNo, 5);
+	attachReplies(feedNo, 3);
 	
 });
 

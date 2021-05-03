@@ -38,9 +38,9 @@
           </section>
          
 		<!-- Feed Section -->
-    	  <div id="feedSection" class="col-md-12"></div> 		  
-		
-        </div>  
+    	<div id="feedSection" class="col-md-12" height="20"></div> 
+        </div>
+        
         
         <div class="col-md-3">
           <section class="feedAside">
