@@ -3,91 +3,71 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <!-- Container wrapper -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <!-- Toggle button -->
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-mdb-toggle="collapse"
-          data-mdb-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="fas fa-bars"></i>
-        </button>
-
-        <div class="container">
-          <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5 pt-2">
-              <img src="../../../resources/static/soodagram-font-logo.png" class="soodagram-logo" height="30">
-            </div>
-            <div class="col-md-2">
-              <form class="d-flex input-group w-auto">
-                <input
-                  type="search"
-                  class="form-control"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-              </form>
-            </div>
-            <div class="col-md-3">
-              <ul class="navbar-nav justify-content-center">
-                <!-- Icons -->
-                <li class="nav-item me-3 me-lg-0">
-                  <a class="nav-link" href="#">
-                    <i class="fas fa-home fa-lg text-dark"></i>
-                  </a>
-                </li>
-                <li class="nav-item me-3 me-lg-0">
-                  <a class="nav-link" href="#">
-                    <i class="far fa-paper-plane fa-lg text-dark"></i>
-                  </a>
-                </li>
-                <li class="nav-item me-3 me-lg-0">
-                  <a class="nav-link" href="#">
-                    <i class="far fa-compass fa-lg text-dark"></i>
-                  </a>
-                </li>
-                <li class="nav-item me-3 me-lg-0">
-                  <a class="nav-link" href="#">
-                    <i class="far fa-heart fa-lg text-dark"></i>
-                  </a>
-                </li>
-                <!-- Avatar -->
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle d-flex align-items-center"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <img
-                      src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg"
-                      class="rounded-circle"
-                      height="22"
-                      alt=""
-                      loading="lazy"
-                    />
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="${path}/main/account">My profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
+          <div class="container">
+              <div class="row">
+                  <div class="col-md-2"></div>
+	                  <a href="/" class="col-md-2 logoBtn">
+	                      <img src="${path}/resources/static/soodagram-font-logo.png" class="fontLogo" height="30">
+	                  </a>
+                  <div class="col-md-3">
+                  	<div class="center">                  	
+                      <input type="search" class="form-control searchInput" placeholder="검색" id="searchBar" aria-label="Search"/> 
+                      <div id="searchResult" class="searchResult">
+                      	
+                      </div> 
+                  	</div>                      
+                  </div>
+                  <div class="col-md-4">
+                      <ul class="navbar-nav justify-content-center">
+                          <!-- Icons -->
+                          <li class="nav-item">
+                              <a href="#" class="nav-link">
+                                  <i class="fas fa-home fa-lg nav-icon"></i>
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="#">
+                                <i class="far fa-paper-plane fa-lg nav-icon"></i>
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#">
+                                <i class="far fa-compass fa-lg nav-icon"></i>
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="#">
+                                <i class="far fa-heart fa-lg nav-icon"></i>
+                              </a>
+                            </li>
+                            <!-- Avatar -->
+                            <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" id="navDropdownMenu" role="button" data-toggle="dropdown" aria-hashpopup="ture" aria-expanded="false">
+                                <img src="${login.userImg}" class="rounded-circle" height="25" loading="lazy" />
+                              </a>
+                              <ul class="dropdown-menu" aria-labelledby="navDropdownMenu">
+                                <li><a class="dropdown-item" href="${path}/user/${login.userId}">프로필</a></li>
+                                <li><a class="dropdown-item" href="#">설정</a></li>
+                                <li><a class="dropdown-item" href="${path}/user/logout">로그아웃</a></li>
+                              </ul>
+                            </li>
+                      </ul>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-      <!-- Container wrapper -->
-    </nav>
-    <!-- Navbar -->
+</nav>  
+
+
+
+
+
+
+
+
+
+
+
+

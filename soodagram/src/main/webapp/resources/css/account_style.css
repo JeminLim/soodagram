@@ -1,6 +1,9 @@
 @charset "UTF-8";
+.userProfile {
+    margin-top: 30px;
+}
 
-.feed{
+.myFeed{
   margin-right: 50px;
 }
 
@@ -9,8 +12,22 @@
 }
 
 .profile{
-  margin-right: 3%;
+  margin-right: 10px;
+  font-size: 20px;
 }
+
+.profileIcon{
+    font-size: 0.8em;
+}
+
+.userInfo{
+    margin-bottom: 20px;
+}
+
+.userLog{
+    font-size: 20px;
+}
+
 .list{
   font-size: small;
 }
@@ -25,6 +42,43 @@
   background-image: none !important;
   border: none;
 }
+
+.userProfile{
+    margin-bottom: 50px;
+}
+
+.feedNavBar{
+    margin-bottom: 30px;
+}
+
+.uploadedFeedRow{
+    margin-bottom: 10px;
+}
+
+.myFeedList{
+    margin-bottom: 10px;
+}
+
+.myFeedImg {
+    margin-right: 10px;
+    padding: 0;
+    margin-bottom: 10px;    
+}
+
+.btnRow {
+	margin-top: 10px;
+	padding-left: 40%;
+}
+
+.feedDelBtn{
+	margin: auto;
+}
+
+.feedImg{
+    width: 100%;
+    height: 200px;
+}
+
 
 .btn-link.text-dark.profile {
   background-color: transparent !important;
@@ -41,14 +95,17 @@
   height: 150px;
 }
 
+.selectFileBtn{
+    margin-bottom: 20px;
+}
+
 
 .addPeople{
   font-size: 100px;
 }
 
-
 .fileDiv{
-	border-style: dashed solid;
+	border: 1px solid;
 	height: 210px !important;
 	width: 100% !important;
 	overflow-x: auto;
@@ -70,3 +127,16 @@
 	width: 80px;
 	height: 30px;
 }
+
+.text-dark{
+    color: black;
+}
+
+.rounded-circle{
+    border-radius: 50%;
+}
+
+.recommandList{
+    margin-bottom: 10px;
+}
+
